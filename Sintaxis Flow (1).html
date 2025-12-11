@@ -755,7 +755,7 @@
                 <div class="level-badge" id="levelBadge">NIVEL 1</div>
             </div>
             <div class="progress-info">
-                <div>Pregunta <span id="currentQuestion">0</span> / <span id="totalQuestions">24</span></div>
+                <div>Pregunta <span id="currentQuestion">0</span> / <span id="totalQuestions">16</span></div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
@@ -821,37 +821,29 @@
 
     <script>
         const oraciones = [
-            // NIVEL 1: Sujeto y Predicado (5 oraciones)
+            // NIVEL 1: Sujeto y Predicado (4 oraciones)
             { nivel: 1, numero: 1, tema: "Tecnología", oracion: "La inteligencia artificial transforma el mundo rápidamente.", palabras: ["La", "inteligencia", "artificial", "transforma", "el", "mundo", "rápidamente"], sujeto: ["La", "inteligencia", "artificial"], predicado: ["transforma", "el", "mundo", "rápidamente"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             { nivel: 1, numero: 2, tema: "Ambiente", oracion: "Los océanos piden ayuda a gritos.", palabras: ["Los", "océanos", "piden", "ayuda", "a", "gritos"], sujeto: ["Los", "océanos"], predicado: ["piden", "ayuda", "a", "gritos"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             { nivel: 1, numero: 3, tema: "Vial", oracion: "Los conductores responsables respetan el paso cebra.", palabras: ["Los", "conductores", "responsables", "respetan", "el", "paso", "cebra"], sujeto: ["Los", "conductores", "responsables"], predicado: ["respetan", "el", "paso", "cebra"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             { nivel: 1, numero: 4, tema: "Cultura", oracion: "Ese streamer famoso rompió un récord mundial ayer.", palabras: ["Ese", "streamer", "famoso", "rompió", "un", "récord", "mundial", "ayer"], sujeto: ["Ese", "streamer", "famoso"], predicado: ["rompió", "un", "récord", "mundial", "ayer"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
-            { nivel: 1, numero: 5, tema: "Ética", oracion: "La honestidad construye confianza entre las personas.", palabras: ["La", "honestidad", "construye", "confianza", "entre", "las", "personas"], sujeto: ["La", "honestidad"], predicado: ["construye", "confianza", "entre", "las", "personas"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             
-            // NIVEL 2: Núcleo del Sujeto y Núcleo del Predicado (5 oraciones)
-            { nivel: 2, numero: 6, tema: "Ambiente", oracion: "El plástico contamina nuestros ríos diariamente.", palabras: ["El", "plástico", "contamina", "nuestros", "ríos", "diariamente"], sujeto: [], predicado: [], ns: ["plástico"], np: ["contamina"], cd: [], ci: [], tipo: "analisis" },
-            { nivel: 2, numero: 7, tema: "Vial", oracion: "El casco salva vidas en la carretera.", palabras: ["El", "casco", "salva", "vidas", "en", "la", "carretera"], sujeto: [], predicado: [], ns: ["casco"], np: ["salva"], cd: [], ci: [], tipo: "analisis" },
-            { nivel: 2, numero: 8, tema: "Tecnología", oracion: "Mis amigos crearon un grupo de WhatsApp nuevo.", palabras: ["Mis", "amigos", "crearon", "un", "grupo", "de", "WhatsApp", "nuevo"], sujeto: [], predicado: [], ns: ["amigos"], np: ["crearon"], cd: [], ci: [], tipo: "analisis" },
-            { nivel: 2, numero: 9, tema: "Ética", oracion: "La empatía mejora la convivencia escolar.", palabras: ["La", "empatía", "mejora", "la", "convivencia", "escolar"], sujeto: [], predicado: [], ns: ["empatía"], np: ["mejora"], cd: [], ci: [], tipo: "analisis" },
-            { nivel: 2, numero: 10, tema: "Cultura", oracion: "Esa canción superó todas las expectativas.", palabras: ["Esa", "canción", "superó", "todas", "las", "expectativas"], sujeto: [], predicado: [], ns: ["canción"], np: ["superó"], cd: [], ci: [], tipo: "analisis" },
+            // NIVEL 2: Núcleo del Sujeto y Núcleo del Predicado (4 oraciones)
+            { nivel: 2, numero: 5, tema: "Ambiente", oracion: "El plástico contamina nuestros ríos diariamente.", palabras: ["El", "plástico", "contamina", "nuestros", "ríos", "diariamente"], sujeto: [], predicado: [], ns: ["plástico"], np: ["contamina"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 6, tema: "Vial", oracion: "El casco salva vidas en la carretera.", palabras: ["El", "casco", "salva", "vidas", "en", "la", "carretera"], sujeto: [], predicado: [], ns: ["casco"], np: ["salva"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 7, tema: "Tecnología", oracion: "Mis amigos crearon un grupo de WhatsApp nuevo.", palabras: ["Mis", "amigos", "crearon", "un", "grupo", "de", "WhatsApp", "nuevo"], sujeto: [], predicado: [], ns: ["amigos"], np: ["crearon"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 8, tema: "Ética", oracion: "La empatía mejora la convivencia escolar.", palabras: ["La", "empatía", "mejora", "la", "convivencia", "escolar"], sujeto: [], predicado: [], ns: ["empatía"], np: ["mejora"], cd: [], ci: [], tipo: "analisis" },
             
-            // NIVEL 3: Núcleo + CD + CI (7 oraciones)
-            { nivel: 3, numero: 11, tema: "Vial", oracion: "El semáforo da prioridad a los peatones.", palabras: ["El", "semáforo", "da", "prioridad", "a", "los", "peatones"], sujeto: [], predicado: [], ns: ["semáforo"], np: ["da"], cd: ["prioridad"], ci: ["a", "los", "peatones"], tipo: "analisis" },
-            { nivel: 3, numero: 12, tema: "Tecnología", oracion: "El algoritmo sugiere videos a los usuarios.", palabras: ["El", "algoritmo", "sugiere", "videos", "a", "los", "usuarios"], sujeto: [], predicado: [], ns: ["algoritmo"], np: ["sugiere"], cd: ["videos"], ci: ["a", "los", "usuarios"], tipo: "analisis" },
-            { nivel: 3, numero: 13, tema: "Ambiente", oracion: "El gobierno prometió leyes nuevas a los ciudadanos.", palabras: ["El", "gobierno", "prometió", "leyes", "nuevas", "a", "los", "ciudadanos"], sujeto: [], predicado: [], ns: ["gobierno"], np: ["prometió"], cd: ["leyes", "nuevas"], ci: ["a", "los", "ciudadanos"], tipo: "analisis" },
-            { nivel: 3, numero: 14, tema: "Ética", oracion: "Nosotros mostramos respeto a nuestros mayores.", palabras: ["Nosotros", "mostramos", "respeto", "a", "nuestros", "mayores"], sujeto: [], predicado: [], ns: ["Nosotros"], np: ["mostramos"], cd: ["respeto"], ci: ["a", "nuestros", "mayores"], tipo: "analisis" },
-            { nivel: 3, numero: 15, tema: "Cultura", oracion: "La banda dedicó su premio a los fans.", palabras: ["La", "banda", "dedicó", "su", "premio", "a", "los", "fans"], sujeto: [], predicado: [], ns: ["banda"], np: ["dedicó"], cd: ["su", "premio"], ci: ["a", "los", "fans"], tipo: "analisis" },
-            { nivel: 3, numero: 16, tema: "Educación", oracion: "El maestro recomendó un libro a sus alumnos.", palabras: ["El", "maestro", "recomendó", "un", "libro", "a", "sus", "alumnos"], sujeto: [], predicado: [], ns: ["maestro"], np: ["recomendó"], cd: ["un", "libro"], ci: ["a", "sus", "alumnos"], tipo: "analisis" },
-            { nivel: 3, numero: 17, tema: "Deporte", oracion: "El entrenador felicitó a los jugadores por el gol.", palabras: ["El", "entrenador", "felicitó", "a", "los", "jugadores", "por", "el", "gol"], sujeto: [], predicado: [], ns: ["entrenador"], np: ["felicitó"], cd: ["a", "los", "jugadores"], ci: [], tipo: "analisis" },
+            // NIVEL 3: Núcleo + CD + CI (4 oraciones)
+            { nivel: 3, numero: 9, tema: "Vial", oracion: "El semáforo da prioridad a los peatones.", palabras: ["El", "semáforo", "da", "prioridad", "a", "los", "peatones"], sujeto: [], predicado: [], ns: ["semáforo"], np: ["da"], cd: ["prioridad"], ci: ["a", "los", "peatones"], tipo: "analisis" },
+            { nivel: 3, numero: 10, tema: "Tecnología", oracion: "El algoritmo sugiere videos a los usuarios.", palabras: ["El", "algoritmo", "sugiere", "videos", "a", "los", "usuarios"], sujeto: [], predicado: [], ns: ["algoritmo"], np: ["sugiere"], cd: ["videos"], ci: ["a", "los", "usuarios"], tipo: "analisis" },
+            { nivel: 3, numero: 11, tema: "Ambiente", oracion: "El gobierno prometió leyes nuevas a los ciudadanos.", palabras: ["El", "gobierno", "prometió", "leyes", "nuevas", "a", "los", "ciudadanos"], sujeto: [], predicado: [], ns: ["gobierno"], np: ["prometió"], cd: ["leyes", "nuevas"], ci: ["a", "los", "ciudadanos"], tipo: "analisis" },
+            { nivel: 3, numero: 12, tema: "Ética", oracion: "Nosotros mostramos respeto a nuestros mayores.", palabras: ["Nosotros", "mostramos", "respeto", "a", "nuestros", "mayores"], sujeto: [], predicado: [], ns: ["Nosotros"], np: ["mostramos"], cd: ["respeto"], ci: ["a", "nuestros", "mayores"], tipo: "analisis" },
             
-            // NIVEL 4: Sustitución de CD y CI por pronombres (7 oraciones)
-            { nivel: 4, numero: 18, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
-            { nivel: 4, numero: 19, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
-            { nivel: 4, numero: 20, tema: "Ambiente", oracion: "Los voluntarios entregaron suministros al refugio.", sujeto: "Los voluntarios", verbo: "entregaron", cd: "suministros", ci: "al refugio", cdPronombre: "los", ciPronombre: "le", oracionCD: "Los voluntarios los entregaron al refugio.", oracionCI: "Los voluntarios le entregaron suministros.", oracionAmbos: "Los voluntarios se los entregaron.", tipo: "pronombre" },
-            { nivel: 4, numero: 21, tema: "Ética", oracion: "La escuela otorgó una beca al estudiante.", sujeto: "La escuela", verbo: "otorgó", cd: "una beca", ci: "al estudiante", cdPronombre: "la", ciPronombre: "le", oracionCD: "La escuela la otorgó al estudiante.", oracionCI: "La escuela le otorgó una beca.", oracionAmbos: "La escuela se la otorgó.", tipo: "pronombre" },
-            { nivel: 4, numero: 22, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
-            { nivel: 4, numero: 23, tema: "Comunicación", oracion: "Mi amigo contó el secreto a su novia.", sujeto: "Mi amigo", verbo: "contó", cd: "el secreto", ci: "a su novia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Mi amigo lo contó a su novia.", oracionCI: "Mi amigo le contó el secreto.", oracionAmbos: "Mi amigo se lo contó.", tipo: "pronombre" },
-            { nivel: 4, numero: 24, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" }
+            // NIVEL 4: Sustitución de CD y CI por pronombres (4 oraciones)
+            { nivel: 4, numero: 13, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
+            { nivel: 4, numero: 14, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
+            { nivel: 4, numero: 15, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
+            { nivel: 4, numero: 16, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" }
         ];
 
         let currentUser = null;
@@ -1181,6 +1173,61 @@
             let esCorrect = true;
 
             if (ejercicio.tipo === 'analisis') {
+                // VALIDACIÓN: Verificar que el estudiante haya colocado al menos una palabra
+                let hasAttempt = false;
+                
+                if (ejercicio.nivel === 1) {
+                    const sujetoDropZone = document.querySelector('[data-category="sujeto"]');
+                    const predicadoDropZone = document.querySelector('[data-category="predicado"]');
+                    
+                    if (sujetoDropZone && sujetoDropZone.querySelectorAll('.dropped-word').length > 0) {
+                        hasAttempt = true;
+                    }
+                    if (predicadoDropZone && predicadoDropZone.querySelectorAll('.dropped-word').length > 0) {
+                        hasAttempt = true;
+                    }
+                    
+                    if (!hasAttempt) {
+                        feedback.className = 'feedback error';
+                        feedback.textContent = '⚠ Debes intentar clasificar las palabras antes de verificar.';
+                        return;
+                    }
+                }
+
+                if (ejercicio.nivel >= 2) {
+                    const nsDropZone = document.querySelector('[data-category="ns"]');
+                    const npDropZone = document.querySelector('[data-category="np"]');
+                    
+                    if (nsDropZone && nsDropZone.querySelectorAll('.dropped-word').length > 0) {
+                        hasAttempt = true;
+                    }
+                    if (npDropZone && npDropZone.querySelectorAll('.dropped-word').length > 0) {
+                        hasAttempt = true;
+                    }
+                    
+                    if (!hasAttempt) {
+                        feedback.className = 'feedback error';
+                        feedback.textContent = '⚠ Debes intentar identificar los núcleos antes de verificar.';
+                        return;
+                    }
+                }
+
+                if (ejercicio.nivel === 3) {
+                    const cdDropZone = document.querySelector('[data-category="cd"]');
+                    const ciDropZone = document.querySelector('[data-category="ci"]');
+                    
+                    if ((cdDropZone && cdDropZone.querySelectorAll('.dropped-word').length > 0) || 
+                        (ciDropZone && ciDropZone.querySelectorAll('.dropped-word').length > 0)) {
+                        hasAttempt = true;
+                    }
+                    
+                    if (!hasAttempt) {
+                        feedback.className = 'feedback error';
+                        feedback.textContent = '⚠ Debes intentar identificar los complementos antes de verificar.';
+                        return;
+                    }
+                }
+                
                 // Verificar análisis sintáctico
                 if (ejercicio.nivel === 1) {
                     const sujetoDropZone = document.querySelector('[data-category="sujeto"]');
@@ -1236,11 +1283,24 @@
                     }
                 }
             } else if (ejercicio.tipo === 'pronombre') {
-                // Verificar pronombre y oración transformada
+                // VALIDACIÓN: Verificar que el estudiante haya seleccionado una opción y escrito algo
                 const container = document.getElementById('wordsPool');
                 const selected = container.dataset.selected;
                 const userInput = document.getElementById('pronombre-input').value.trim();
 
+                if (!selected || selected === '') {
+                    feedback.className = 'feedback error';
+                    feedback.textContent = '⚠ Debes seleccionar qué tipo de complemento deseas reemplazar.';
+                    return;
+                }
+
+                if (!userInput || userInput === '') {
+                    feedback.className = 'feedback error';
+                    feedback.textContent = '⚠ Debes escribir la oración transformada antes de verificar.';
+                    return;
+                }
+                
+                // Verificar pronombre y oración transformada
                 // Normalizar respuestas (quitar puntos, espacios extras, y convertir a minúsculas)
                 const normalize = (str) => str.toLowerCase().replace(/[\.¡!¿?]/g, '').replace(/\s+/g, ' ').trim();
 
