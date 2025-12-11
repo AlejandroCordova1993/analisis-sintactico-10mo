@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica de Análisis Sintáctico - 10mo EGB</title>
+    <style>
+        :root {
+            --color-blue: #0066FF;
+            --color-green: #00AA33;
+            --color-orange: #FF8800;
+            --color-red: #DD2222;
+            --color-yellow: #FFD700;
+            --color-cyan: #00CED1;
+            --color-slate-900: #0F172A;
+            --color-slate-800: #1E293B;
+            --color-slate-700: #334155;
+            --color-slate-200: #E2E8F0;
+            --color-white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--color-slate-900) 0%, #1a2a4a 100%);
+            color: var(--color-white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--color-slate-800);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+            border: 2px solid var(--color-blue);
+        }
+
+        .header {
+            background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-cyan) 100%);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-white);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-badge {
+            background-color: var(--color-white);
+            color: var(--color-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .progress-info {
+            text-align: right;
+            color: var(--color-white);
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-yellow), var(--color-orange));
+            transition: width 0.3s ease;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .login-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(90deg, var(--color-cyan), var(--color-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: var(--color-slate-200);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-slate-200);
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 12px 16px;
+            border: 2px solid var(--color-slate-700);
+            border-radius: 10px;
+            background-color: var(--color-slate-900);
+            color: var(--color-white);
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--color-cyan);
+            box-shadow: 0 0 10px rgba(0, 206, 209, 0.5);
+        }
+
+        .btn-start {
+            padding: 14px 32px;
+            background: linear-gradient(90deg, var(--color-green), #00DD55);
+            color: var(--color-white);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 12px;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 170, 51, 0.4);
+        }
+
+        .exercise-section {
+            display: none;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .exercise-section.active {
+            display: flex;
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exercise-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--color-white);
+        }
+
+        .exercise-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--color-slate-200);
+        }
+
+        .sentence-container {
+            background-color: var(--color-slate-900);
+            border: 2px solid var(--color-blue);
+            border-radius: 15px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .sentence-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .sentence-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--color-white);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .words-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            padding: 20px;
+            background-color: var(--color-slate-900);
+            border: 2px dashed var(--color-slate-700);
+            border-radius: 15px;
+            min-height: 80px;
+        }
+
+        .word-chip {
+            padding: 10px 16px;
+            background-color: var(--color-slate-700);
+            color: var(--color-white);
+            border-radius: 25px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .word-chip:hover {
+            transform: scale(1.05);
+            border-color: var(--color-cyan);
+            background-color: var(--color-slate-600);
+        }
+
+        .word-chip.dragging {
+            opacity: 0.5;
+        }
+
+        .word-chip.hidden {
+            display: none;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .category {
+            background-color: var(--color-slate-900);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .category.sujeto { border-color: var(--color-blue); }
+        .category.predicado { border-color: var(--color-green); }
+        .category.ns { border-color: var(--color-cyan); }
+        .category.np { border-color: var(--color-yellow); }
+        .category.cd { border-color: var(--color-orange); }
+        .category.ci { border-color: var(--color-red); }
+
+        .category:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .category-label {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category.sujeto .category-label { color: var(--color-blue); }
+        .category.predicado .category-label { color: var(--color-green); }
+        .category.ns .category-label { color: var(--color-cyan); }
+        .category.np .category-label { color: var(--color-yellow); }
+        .category.cd .category-label { color: var(--color-orange); }
+        .category.ci .category-label { color: var(--color-red); }
+
+        .category-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .category.sujeto .category-dot { background-color: var(--color-blue); }
+        .category.predicado .category-dot { background-color: var(--color-green); }
+        .category.ns .category-dot { background-color: var(--color-cyan); }
+        .category.np .category-dot { background-color: var(--color-yellow); }
+        .category.cd .category-dot { background-color: var(--color-orange); }
+        .category.ci .category-dot { background-color: var(--color-red); }
+
+        .drop-zone {
+            flex: 1;
+            background-color: var(--color-slate-800);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            min-height: 80px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            background-color: var(--color-slate-700);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 15px rgba(0, 206, 209, 0.3);
+        }
+
+        .dropped-word {
+            padding: 8px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--color-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .dropped-word:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-reset {
+            background-color: var(--color-slate-700);
+            color: var(--color-white);
+        }
+
+        .btn-reset:hover {
+            background-color: var(--color-slate-600);
+        }
+
+        .btn-check {
+            background: linear-gradient(90deg, var(--color-green), #00DD55);
+            color: var(--color-white);
+            flex: 1;
+        }
+
+        .btn-check:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 170, 51, 0.4);
+        }
+
+        .btn-next {
+            background: linear-gradient(90deg, var(--color-blue), var(--color-cyan));
+            color: var(--color-white);
+            flex: 1;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .feedback {
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            text-align: center;
+        }
+
+        .feedback.success {
+            background-color: rgba(0, 170, 51, 0.2);
+            color: #00FF55;
+            border: 2px solid var(--color-green);
+            display: block;
+        }
+
+        .feedback.error {
+            background-color: rgba(221, 34, 34, 0.2);
+            color: #FF5555;
+            border: 2px solid var(--color-red);
+            display: block;
+        }
+
+        .pronoun-input {
+            padding: 10px 16px;
+            background-color: var(--color-slate-700);
+            border: 2px solid var(--color-slate-600);
+            border-radius: 8px;
+            color: var(--color-white);
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+            transition: all 0.3s;
+        }
+
+        .pronoun-input:focus {
+            outline: none;
+            border-color: var(--color-cyan);
+            box-shadow: 0 0 10px rgba(0, 206, 209, 0.5);
+            background-color: var(--color-slate-600);
+        }
+
+        .pronoun-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            padding: 20px;
+            background-color: var(--color-slate-900);
+            border: 2px dashed var(--color-slate-700);
+            border-radius: 15px;
+            min-height: 100px;
+        }
+
+        .pronoun-pair {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background-color: var(--color-slate-800);
+            border-radius: 10px;
+            border: 1px solid var(--color-slate-700);
+        }
+
+        .pronoun-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--color-slate-200);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .replacement-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background-color: var(--color-slate-900);
+            border-radius: 15px;
+        }
+
+        .replacement-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-cyan);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .replacement-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .replacement-btn {
+            padding: 10px 20px;
+            background-color: var(--color-slate-700);
+            border: 2px solid var(--color-slate-600);
+            color: var(--color-white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .replacement-btn:hover {
+            border-color: var(--color-cyan);
+            background-color: var(--color-slate-600);
+            transform: scale(1.05);
+        }
+
+        .replacement-btn.active {
+            background-color: var(--color-cyan);
+            color: var(--color-slate-900);
+            border-color: var(--color-cyan);
+        }
+
+        .replacement-result {
+            padding: 16px;
+            background-color: var(--color-slate-800);
+            border: 2px solid var(--color-slate-700);
+            border-radius: 10px;
+            font-style: italic;
+            font-size: 16px;
+            color: var(--color-white);
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .replacement-result.cd-active {
+            border-color: var(--color-orange);
+            background-color: rgba(255, 136, 0, 0.1);
+            color: var(--color-orange);
+        }
+
+        .replacement-result.ci-active {
+            border-color: var(--color-red);
+            background-color: rgba(221, 34, 34, 0.1);
+            color: var(--color-red);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .exercise-title {
+                font-size: 18px;
+            }
+
+            .sentence-text {
+                font-size: 18px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-title">Práctica de Análisis Sintáctico</div>
+                <div class="level-badge" id="levelBadge">NIVEL 1</div>
+            </div>
+            <div class="progress-info">
+                <div>Pregunta <span id="currentQuestion">0</span> / <span id="totalQuestions">24</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="login-section" id="loginSection">
+                <div class="login-title">Bienvenido al Espacio de Práctica</div>
+                <div class="login-subtitle">Domina el análisis sintáctico de oraciones con ejercicios interactivos. Identifica las partes de la oración y practica el uso de pronombres átonos.</div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="input-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" placeholder="Tu apellido" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="curso">Curso</label>
+                        <select id="curso" required>
+                            <option value="">Selecciona tu curso</option>
+                            <option value="10mo G">10mo G</option>
+                            <option value="10mo H">10mo H</option>
+                            <option value="10mo I">10mo I</option>
+                            <option value="10mo J">10mo J</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-start">Iniciar Análisis</button>
+                </form>
+            </div>
+
+            <div class="exercise-section" id="exerciseSection">
+                <div class="exercise-header">
+                    <div class="exercise-title" id="exerciseTitle">Oración 1</div>
+                    <div class="exercise-meta">
+                        <span id="topicTag">Tecnología</span>
+                        <span id="difficultyTag">Nivel 1</span>
+                    </div>
+                </div>
+
+                <div class="sentence-container">
+                    <div class="sentence-label">Analiza la oración:</div>
+                    <div class="sentence-text" id="sentenceText"></div>
+                </div>
+
+                <div class="words-pool" id="wordsPool"></div>
+
+                <div class="categories-grid" id="categoriesGrid"></div>
+
+                <div class="feedback" id="feedback"></div>
+
+                <div class="controls">
+                    <button class="btn btn-reset" id="resetBtn">Reiniciar</button>
+                    <button class="btn btn-check" id="checkBtn">Verificar Respuesta</button>
+                    <button class="btn btn-next" id="nextBtn" style="display: none;">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const oraciones = [
+            // NIVEL 1: Sujeto y Predicado (5 oraciones)
+            { nivel: 1, numero: 1, tema: "Tecnología", oracion: "La inteligencia artificial transforma el mundo rápidamente.", palabras: ["La", "inteligencia", "artificial", "transforma", "el", "mundo", "rápidamente"], sujeto: ["La", "inteligencia", "artificial"], predicado: ["transforma", "el", "mundo", "rápidamente"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 1, numero: 2, tema: "Ambiente", oracion: "Los océanos piden ayuda a gritos.", palabras: ["Los", "océanos", "piden", "ayuda", "a", "gritos"], sujeto: ["Los", "océanos"], predicado: ["piden", "ayuda", "a", "gritos"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 1, numero: 3, tema: "Vial", oracion: "Los conductores responsables respetan el paso cebra.", palabras: ["Los", "conductores", "responsables", "respetan", "el", "paso", "cebra"], sujeto: ["Los", "conductores", "responsables"], predicado: ["respetan", "el", "paso", "cebra"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 1, numero: 4, tema: "Cultura", oracion: "Ese streamer famoso rompió un récord mundial ayer.", palabras: ["Ese", "streamer", "famoso", "rompió", "un", "récord", "mundial", "ayer"], sujeto: ["Ese", "streamer", "famoso"], predicado: ["rompió", "un", "récord", "mundial", "ayer"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 1, numero: 5, tema: "Ética", oracion: "La honestidad construye confianza entre las personas.", palabras: ["La", "honestidad", "construye", "confianza", "entre", "las", "personas"], sujeto: ["La", "honestidad"], predicado: ["construye", "confianza", "entre", "las", "personas"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
+            
+            // NIVEL 2: Núcleo del Sujeto y Núcleo del Predicado (5 oraciones)
+            { nivel: 2, numero: 6, tema: "Ambiente", oracion: "El plástico contamina nuestros ríos diariamente.", palabras: ["El", "plástico", "contamina", "nuestros", "ríos", "diariamente"], sujeto: [], predicado: [], ns: ["plástico"], np: ["contamina"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 7, tema: "Vial", oracion: "El casco salva vidas en la carretera.", palabras: ["El", "casco", "salva", "vidas", "en", "la", "carretera"], sujeto: [], predicado: [], ns: ["casco"], np: ["salva"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 8, tema: "Tecnología", oracion: "Mis amigos crearon un grupo de WhatsApp nuevo.", palabras: ["Mis", "amigos", "crearon", "un", "grupo", "de", "WhatsApp", "nuevo"], sujeto: [], predicado: [], ns: ["amigos"], np: ["crearon"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 9, tema: "Ética", oracion: "La empatía mejora la convivencia escolar.", palabras: ["La", "empatía", "mejora", "la", "convivencia", "escolar"], sujeto: [], predicado: [], ns: ["empatía"], np: ["mejora"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 10, tema: "Cultura", oracion: "Esa canción superó todas las expectativas.", palabras: ["Esa", "canción", "superó", "todas", "las", "expectativas"], sujeto: [], predicado: [], ns: ["canción"], np: ["superó"], cd: [], ci: [], tipo: "analisis" },
+            
+            // NIVEL 3: Núcleo + CD + CI (7 oraciones)
+            { nivel: 3, numero: 11, tema: "Vial", oracion: "El semáforo da prioridad a los peatones.", palabras: ["El", "semáforo", "da", "prioridad", "a", "los", "peatones"], sujeto: [], predicado: [], ns: ["semáforo"], np: ["da"], cd: ["prioridad"], ci: ["a", "los", "peatones"], tipo: "analisis" },
+            { nivel: 3, numero: 12, tema: "Tecnología", oracion: "El algoritmo sugiere videos a los usuarios.", palabras: ["El", "algoritmo", "sugiere", "videos", "a", "los", "usuarios"], sujeto: [], predicado: [], ns: ["algoritmo"], np: ["sugiere"], cd: ["videos"], ci: ["a", "los", "usuarios"], tipo: "analisis" },
+            { nivel: 3, numero: 13, tema: "Ambiente", oracion: "El gobierno prometió leyes nuevas a los ciudadanos.", palabras: ["El", "gobierno", "prometió", "leyes", "nuevas", "a", "los", "ciudadanos"], sujeto: [], predicado: [], ns: ["gobierno"], np: ["prometió"], cd: ["leyes", "nuevas"], ci: ["a", "los", "ciudadanos"], tipo: "analisis" },
+            { nivel: 3, numero: 14, tema: "Ética", oracion: "Nosotros mostramos respeto a nuestros mayores.", palabras: ["Nosotros", "mostramos", "respeto", "a", "nuestros", "mayores"], sujeto: [], predicado: [], ns: ["Nosotros"], np: ["mostramos"], cd: ["respeto"], ci: ["a", "nuestros", "mayores"], tipo: "analisis" },
+            { nivel: 3, numero: 15, tema: "Cultura", oracion: "La banda dedicó su premio a los fans.", palabras: ["La", "banda", "dedicó", "su", "premio", "a", "los", "fans"], sujeto: [], predicado: [], ns: ["banda"], np: ["dedicó"], cd: ["su", "premio"], ci: ["a", "los", "fans"], tipo: "analisis" },
+            { nivel: 3, numero: 16, tema: "Educación", oracion: "El maestro recomendó un libro a sus alumnos.", palabras: ["El", "maestro", "recomendó", "un", "libro", "a", "sus", "alumnos"], sujeto: [], predicado: [], ns: ["maestro"], np: ["recomendó"], cd: ["un", "libro"], ci: ["a", "sus", "alumnos"], tipo: "analisis" },
+            { nivel: 3, numero: 17, tema: "Deporte", oracion: "El entrenador felicitó a los jugadores por el gol.", palabras: ["El", "entrenador", "felicitó", "a", "los", "jugadores", "por", "el", "gol"], sujeto: [], predicado: [], ns: ["entrenador"], np: ["felicitó"], cd: ["a", "los", "jugadores"], ci: [], tipo: "analisis" },
+            
+            // NIVEL 4: Sustitución de CD y CI por pronombres (7 oraciones)
+            { nivel: 4, numero: 18, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
+            { nivel: 4, numero: 19, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
+            { nivel: 4, numero: 20, tema: "Ambiente", oracion: "Los voluntarios entregaron suministros al refugio.", sujeto: "Los voluntarios", verbo: "entregaron", cd: "suministros", ci: "al refugio", cdPronombre: "los", ciPronombre: "le", oracionCD: "Los voluntarios los entregaron al refugio.", oracionCI: "Los voluntarios le entregaron suministros.", oracionAmbos: "Los voluntarios se los entregaron.", tipo: "pronombre" },
+            { nivel: 4, numero: 21, tema: "Ética", oracion: "La escuela otorgó una beca al estudiante.", sujeto: "La escuela", verbo: "otorgó", cd: "una beca", ci: "al estudiante", cdPronombre: "la", ciPronombre: "le", oracionCD: "La escuela la otorgó al estudiante.", oracionCI: "La escuela le otorgó una beca.", oracionAmbos: "La escuela se la otorgó.", tipo: "pronombre" },
+            { nivel: 4, numero: 22, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
+            { nivel: 4, numero: 23, tema: "Comunicación", oracion: "Mi amigo contó el secreto a su novia.", sujeto: "Mi amigo", verbo: "contó", cd: "el secreto", ci: "a su novia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Mi amigo lo contó a su novia.", oracionCI: "Mi amigo le contó el secreto.", oracionAmbos: "Mi amigo se lo contó.", tipo: "pronombre" },
+            { nivel: 4, numero: 24, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" }
+        ];
+
+        let currentUser = null;
+        let currentExerciseIndex = 0;
+        let correctAnswers = 0;
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const curso = document.getElementById('curso').value;
+
+            currentUser = { nombre, apellido, curso };
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('exerciseSection').classList.add('active');
+            loadExercise(0);
+        });
+
+        function loadExercise(index) {
+            currentExerciseIndex = index;
+            const ejercicio = oraciones[index];
+
+            document.getElementById('levelBadge').textContent = `NIVEL ${ejercicio.nivel}`;
+            document.getElementById('currentQuestion').textContent = index + 1;
+            document.getElementById('totalQuestions').textContent = oraciones.length;
+            document.getElementById('progressFill').style.width = ((index + 1) / oraciones.length * 100) + '%';
+
+            document.getElementById('exerciseTitle').textContent = `Oración ${index + 1}`;
+            document.getElementById('topicTag').textContent = ejercicio.tema;
+            document.getElementById('difficultyTag').textContent = `Nivel ${ejercicio.nivel}`;
+            document.getElementById('sentenceText').textContent = ejercicio.oracion;
+
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('checkBtn').style.display = 'block';
+            document.getElementById('nextBtn').style.display = 'none';
+
+            if (ejercicio.tipo === 'analisis') {
+                // Modo análisis: arrastra y suelta
+                renderCategories(ejercicio);
+                const wordsPool = document.getElementById('wordsPool');
+                wordsPool.innerHTML = '';
+                ejercicio.palabras.forEach((palabra, idx) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'word-chip';
+                    chip.textContent = palabra;
+                    chip.draggable = true;
+                    chip.setAttribute('data-index', idx);
+                    chip.addEventListener('dragstart', handleDragStart);
+                    chip.addEventListener('dragend', handleDragEnd);
+                    wordsPool.appendChild(chip);
+                });
+                document.getElementById('categoriesGrid').style.display = 'grid';
+                document.getElementById('wordsPool').style.display = 'flex';
+            } else if (ejercicio.tipo === 'pronombre') {
+                // Modo pronombre: escribe los pronombres
+                document.getElementById('categoriesGrid').innerHTML = '';
+                document.getElementById('categoriesGrid').style.display = 'none';
+                renderPronounExercise(ejercicio);
+                document.getElementById('wordsPool').style.display = 'block';
+            }
+
+            document.getElementById('resetBtn').onclick = () => loadExercise(index);
+            document.getElementById('checkBtn').onclick = () => checkAnswer(ejercicio);
+            document.getElementById('nextBtn').onclick = () => {
+                if (index < oraciones.length - 1) {
+                    loadExercise(index + 1);
+                } else {
+                    showFinalResults();
+                }
+            };
+        }
+
+        function renderCategories(ejercicio) {
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = '';
+
+            const categorias = [];
+
+            if (ejercicio.nivel === 1) {
+                categorias.push({ id: 'sujeto', label: 'Sujeto', color: 'blue' });
+                categorias.push({ id: 'predicado', label: 'Predicado', color: 'green' });
+            }
+
+            if (ejercicio.nivel === 2) {
+                categorias.push({ id: 'ns', label: 'Núcleo del Sujeto', color: 'cyan' });
+                categorias.push({ id: 'np', label: 'Núcleo del Predicado', color: 'yellow' });
+            }
+
+            if (ejercicio.nivel === 3) {
+                // NIVEL 3: Solo Núcleos + Complementos (sin Sujeto/Predicado para evitar redundancia)
+                categorias.push({ id: 'ns', label: 'Núcleo del Sujeto', color: 'cyan' });
+                categorias.push({ id: 'np', label: 'Núcleo del Predicado', color: 'yellow' });
+                if (ejercicio.cd.length > 0) {
+                    categorias.push({ id: 'cd', label: 'CD (¿Qué?)', color: 'orange' });
+                }
+                if (ejercicio.ci.length > 0) {
+                    categorias.push({ id: 'ci', label: 'CI (¿A quién?)', color: 'red' });
+                }
+            }
+
+            categorias.forEach(cat => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = `category ${cat.id}`;
+                categoryDiv.innerHTML = `
+                    <div class="category-label">
+                        <span class="category-dot"></span>
+                        ${cat.label}
+                    </div>
+                    <div class="drop-zone" data-category="${cat.id}"></div>
+                `;
+                grid.appendChild(categoryDiv);
+
+                const dropZone = categoryDiv.querySelector('.drop-zone');
+                dropZone.addEventListener('dragover', handleDragOver);
+                dropZone.addEventListener('dragleave', handleDragLeave);
+                dropZone.addEventListener('drop', (e) => handleDrop(e, cat.id));
+            });
+        }
+
+        function renderPronounExercise(ejercicio) {
+            const container = document.getElementById('wordsPool');
+            container.innerHTML = '';
+            container.className = 'replacement-section';
+
+            // Instrucciones
+            const instructionsDiv = document.createElement('div');
+            instructionsDiv.style.cssText = 'background-color: var(--color-slate-800); padding: 16px; border-radius: 10px; border-left: 4px solid var(--color-cyan); margin-bottom: 20px;';
+            instructionsDiv.innerHTML = `
+                <div style="font-weight: 700; color: var(--color-cyan); margin-bottom: 8px;">📝 INSTRUCCIONES:</div>
+                <div style="color: var(--color-slate-200); font-size: 14px; line-height: 1.6;">
+                    1. Lee la oración original<br>
+                    2. Identifica el <span style="color: var(--color-orange);">CD (Complemento Directo)</span> - pregunta: <strong>¿Qué + verbo?</strong><br>
+                    3. Identifica el <span style="color: var(--color-red);">CI (Complemento Indirecto)</span> - pregunta: <strong>¿A quién + verbo?</strong><br>
+                    4. Selecciona qué deseas reemplazar<br>
+                    5. Escribe la oración completa con el pronombre correcto (<strong>lo, la, los, las, le, les, se</strong>)
+                </div>
+            `;
+            container.appendChild(instructionsDiv);
+
+            // Ayuda con preguntas para identificar CD y CI
+            const helpDiv = document.createElement('div');
+            helpDiv.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;';
+            helpDiv.innerHTML = `
+                <div style="background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px solid var(--color-orange);">
+                    <div style="font-size: 11px; color: var(--color-orange); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 Para encontrar el CD:</div>
+                    <div style="color: var(--color-slate-200); font-size: 13px;">Pregunta: <strong>¿Qué ${ejercicio.verbo}?</strong></div>
+                    <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: lo, la, los, las</div>
+                </div>
+                <div style="background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px solid var(--color-red);">
+                    <div style="font-size: 11px; color: var(--color-red); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 Para encontrar el CI:</div>
+                    <div style="color: var(--color-slate-200); font-size: 13px;">Pregunta: <strong>¿A quién ${ejercicio.verbo}?</strong></div>
+                    <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: le, les (o "se" con CD)</div>
+                </div>
+            `;
+            container.appendChild(helpDiv);
+
+            // Título
+            const title = document.createElement('div');
+            title.className = 'replacement-title';
+            title.textContent = 'Selecciona qué quieres reemplazar:';
+            container.appendChild(title);
+
+            // Botones de opción
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'replacement-options';
+
+            const btnCD = document.createElement('button');
+            btnCD.className = 'replacement-btn active';
+            btnCD.textContent = `Solo CD → Pronombre`;
+            btnCD.id = 'btn-cd';
+            btnCD.onclick = () => selectReplacement('cd', ejercicio);
+
+            const btnCI = document.createElement('button');
+            btnCI.className = 'replacement-btn';
+            btnCI.textContent = `Solo CI → Pronombre`;
+            btnCI.id = 'btn-ci';
+            btnCI.onclick = () => selectReplacement('ci', ejercicio);
+
+            const btnAmbos = document.createElement('button');
+            btnAmbos.className = 'replacement-btn';
+            btnAmbos.textContent = `CD + CI → Pronombres (se + pronombre)`;
+            btnAmbos.id = 'btn-ambos';
+            btnAmbos.onclick = () => selectReplacement('ambos', ejercicio);
+
+            optionsDiv.appendChild(btnCD);
+            optionsDiv.appendChild(btnCI);
+            optionsDiv.appendChild(btnAmbos);
+            container.appendChild(optionsDiv);
+
+            // Pista de estructura (NO la respuesta completa)
+            const hintDiv = document.createElement('div');
+            hintDiv.id = 'hint-div';
+            hintDiv.style.cssText = 'background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px dashed var(--color-orange); margin-bottom: 16px;';
+            hintDiv.innerHTML = `
+                <div style="font-size: 12px; color: var(--color-slate-200); margin-bottom: 4px;">💡 Estructura esperada:</div>
+                <div style="color: var(--color-orange); font-weight: 600; font-style: italic;">${ejercicio.sujeto} + [pronombre] + ${ejercicio.verbo} + ...</div>
+                <div style="font-size: 11px; color: var(--color-slate-300); margin-top: 6px;">Recuerda: El pronombre va ANTES del verbo</div>
+            `;
+            container.appendChild(hintDiv);
+
+            // Entrada de texto para la oración transformada
+            const inputDiv = document.createElement('div');
+            inputDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
+
+            const label = document.createElement('div');
+            label.className = 'pronoun-label';
+            label.textContent = 'Escribe la oración completa transformada:';
+            inputDiv.appendChild(label);
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'pronoun-input';
+            input.id = 'pronombre-input';
+            input.placeholder = 'Ej: Juan los envió al profesor.';
+            input.style.minWidth = '100%';
+            input.style.textAlign = 'left';
+            inputDiv.appendChild(input);
+
+            container.appendChild(inputDiv);
+
+            // Guardar estado de selección
+            container.dataset.selected = 'cd';
+        }
+
+        function selectReplacement(type, ejercicio) {
+            const btnCD = document.getElementById('btn-cd');
+            const btnCI = document.getElementById('btn-ci');
+            const btnAmbos = document.getElementById('btn-ambos');
+            const hintDiv = document.getElementById('hint-div');
+            const container = document.getElementById('wordsPool');
+
+            // Actualizar botones
+            btnCD.classList.remove('active');
+            btnCI.classList.remove('active');
+            btnAmbos.classList.remove('active');
+
+            let estructura = '';
+            let pista = '';
+            let borderColor = '';
+
+            if (type === 'cd') {
+                btnCD.classList.add('active');
+                estructura = `${ejercicio.sujeto} + [pronombre CD] + ${ejercicio.verbo} + ${ejercicio.ci}`;
+                pista = `Reemplaza "${ejercicio.cd}" por el pronombre correcto (lo/la/los/las)`;
+                borderColor = 'var(--color-orange)';
+            } else if (type === 'ci') {
+                btnCI.classList.add('active');
+                estructura = `${ejercicio.sujeto} + [pronombre CI] + ${ejercicio.verbo} + ${ejercicio.cd}`;
+                pista = `Reemplaza "${ejercicio.ci}" por el pronombre correcto (le/les)`;
+                borderColor = 'var(--color-red)';
+            } else if (type === 'ambos') {
+                btnAmbos.classList.add('active');
+                estructura = `${ejercicio.sujeto} + se + [pronombre CD] + ${ejercicio.verbo}`;
+                pista = `Reemplaza ambos complementos. IMPORTANTE: "le" se convierte en "se" cuando va con otro pronombre`;
+                borderColor = 'var(--color-cyan)';
+            }
+
+            // Actualizar pista (sin mostrar la respuesta)
+            hintDiv.style.borderColor = borderColor;
+            hintDiv.innerHTML = `
+                <div style="font-size: 12px; color: var(--color-slate-200); margin-bottom: 4px;">💡 Pista de estructura:</div>
+                <div style="color: ${borderColor}; font-weight: 600; font-style: italic; margin-bottom: 8px;">${estructura}</div>
+                <div style="font-size: 11px; color: var(--color-slate-300);">${pista}</div>
+            `;
+
+            // Guardar selección
+            container.dataset.selected = type;
+
+            // Limpiar input
+            document.getElementById('pronombre-input').value = '';
+            document.getElementById('pronombre-input').focus();
+        }
+
+        function generateReplacementText(type, ejercicio) {
+            // Esta función ya no se usa pero la mantengo para evitar errores
+            return '';
+        }
+
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.classList.remove('drag-over');
+            });
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e, categoryId) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-over');
+
+            if (draggedElement && draggedElement.classList.contains('word-chip')) {
+                const palabra = draggedElement.textContent;
+                const droppedWord = document.createElement('div');
+                droppedWord.className = 'dropped-word';
+                droppedWord.textContent = palabra;
+                droppedWord.onclick = () => {
+                    draggedElement.classList.remove('dragging');
+                    draggedElement.classList.remove('hidden');
+                    droppedWord.remove();
+                };
+
+                e.currentTarget.appendChild(droppedWord);
+                draggedElement.classList.add('hidden');
+            }
+        }
+
+        function checkAnswer(ejercicio) {
+            const feedback = document.getElementById('feedback');
+            let esCorrect = true;
+
+            if (ejercicio.tipo === 'analisis') {
+                // Verificar análisis sintáctico
+                if (ejercicio.nivel === 1) {
+                    const sujetoDropZone = document.querySelector('[data-category="sujeto"]');
+                    if (sujetoDropZone) {
+                        const sujetoWords = Array.from(sujetoDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(sujetoWords) !== JSON.stringify(ejercicio.sujeto)) {
+                            esCorrect = false;
+                        }
+                    }
+
+                    const predicadoDropZone = document.querySelector('[data-category="predicado"]');
+                    if (predicadoDropZone) {
+                        const predicadoWords = Array.from(predicadoDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(predicadoWords) !== JSON.stringify(ejercicio.predicado)) {
+                            esCorrect = false;
+                        }
+                    }
+                }
+
+                if (ejercicio.nivel >= 2) {
+                    const nsDropZone = document.querySelector('[data-category="ns"]');
+                    if (nsDropZone) {
+                        const nsWords = Array.from(nsDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(nsWords) !== JSON.stringify(ejercicio.ns)) {
+                            esCorrect = false;
+                        }
+                    }
+
+                    const npDropZone = document.querySelector('[data-category="np"]');
+                    if (npDropZone) {
+                        const npWords = Array.from(npDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(npWords) !== JSON.stringify(ejercicio.np)) {
+                            esCorrect = false;
+                        }
+                    }
+                }
+
+                if (ejercicio.nivel === 3) {
+                    const cdDropZone = document.querySelector('[data-category="cd"]');
+                    if (cdDropZone && ejercicio.cd.length > 0) {
+                        const cdWords = Array.from(cdDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(cdWords) !== JSON.stringify(ejercicio.cd)) {
+                            esCorrect = false;
+                        }
+                    }
+
+                    const ciDropZone = document.querySelector('[data-category="ci"]');
+                    if (ciDropZone && ejercicio.ci.length > 0) {
+                        const ciWords = Array.from(ciDropZone.querySelectorAll('.dropped-word')).map(w => w.textContent);
+                        if (JSON.stringify(ciWords) !== JSON.stringify(ejercicio.ci)) {
+                            esCorrect = false;
+                        }
+                    }
+                }
+            } else if (ejercicio.tipo === 'pronombre') {
+                // Verificar pronombre y oración transformada
+                const container = document.getElementById('wordsPool');
+                const selected = container.dataset.selected;
+                const userInput = document.getElementById('pronombre-input').value.trim();
+
+                // Normalizar respuestas (quitar puntos, espacios extras, y convertir a minúsculas)
+                const normalize = (str) => str.toLowerCase().replace(/[\.¡!¿?]/g, '').replace(/\s+/g, ' ').trim();
+
+                let oracionCorrecta = '';
+                if (selected === 'cd') {
+                    oracionCorrecta = ejercicio.oracionCD;
+                } else if (selected === 'ci') {
+                    oracionCorrecta = ejercicio.oracionCI;
+                } else if (selected === 'ambos') {
+                    oracionCorrecta = ejercicio.oracionAmbos;
+                }
+
+                // Comparar respuestas normalizadas
+                if (normalize(userInput) === normalize(oracionCorrecta)) {
+                    esCorrect = true;
+                } else {
+                    esCorrect = false;
+                }
+            }
+
+            if (esCorrect) {
+                feedback.className = 'feedback success';
+                feedback.textContent = '✓ ¡Excelente! Respuesta correcta.';
+                correctAnswers++;
+                // Guardar progreso
+                saveProgress(ejercicio, true);
+            } else {
+                feedback.className = 'feedback error';
+                let mensajeError = '✗ Intenta nuevamente. Revisa bien la respuesta.';
+                
+                // Dar retroalimentación específica para pronombres
+                if (ejercicio.tipo === 'pronombre') {
+                    const container = document.getElementById('wordsPool');
+                    const selected = container.dataset.selected;
+                    let oracionCorrecta = '';
+                    
+                    if (selected === 'cd') {
+                        oracionCorrecta = ejercicio.oracionCD;
+                    } else if (selected === 'ci') {
+                        oracionCorrecta = ejercicio.oracionCI;
+                    } else if (selected === 'ambos') {
+                        oracionCorrecta = ejercicio.oracionAmbos;
+                    }
+                    
+                    mensajeError = `✗ Incorrecto. La oración correcta es: "${oracionCorrecta}"`;
+                }
+                
+                feedback.textContent = mensajeError;
+                saveProgress(ejercicio, false);
+            }
+
+            document.getElementById('checkBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        // Función para guardar el progreso del estudiante
+        function saveProgress(ejercicio, esCorrecta) {
+            if (!currentUser) return;
+
+            const progressData = {
+                nombre: currentUser.nombre,
+                apellido: currentUser.apellido,
+                curso: currentUser.curso,
+                pregunta: ejercicio.numero,
+                nivel: ejercicio.nivel,
+                tema: ejercicio.tema,
+                correcta: esCorrecta,
+                timestamp: new Date().toISOString()
+            };
+
+            // Guardar en localStorage temporalmente
+            let allProgress = JSON.parse(localStorage.getItem('sintaxisFlowProgress') || '[]');
+            allProgress.push(progressData);
+            localStorage.setItem('sintaxisFlowProgress', JSON.stringify(allProgress));
+        }
+
+        function showFinalResults() {
+            const score = Math.round((correctAnswers / oraciones.length) * 100);
+            
+            // Enviar resultados a Google Sheets
+            sendToGoogleSheets(score);
+
+            const resultsDiv = document.createElement('div');
+            resultsDiv.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+
+            resultsDiv.innerHTML = `
+                <div style="background: var(--color-slate-800); padding: 40px; border-radius: 20px; text-align: center; border: 3px solid var(--color-cyan); max-width: 500px;">
+                    <h2 style="color: var(--color-cyan); font-size: 28px; margin-bottom: 20px;">¡Misión Completada!</h2>
+                    <p style="color: var(--color-white); font-size: 18px; margin-bottom: 30px;">
+                        Puntuación: <span style="color: var(--color-yellow); font-weight: 800; font-size: 32px;">${score}%</span>
+                    </p>
+                    <p style="color: var(--color-slate-200); margin-bottom: 30px;">
+                        Respondiste correctamente <strong>${correctAnswers} de ${oraciones.length}</strong> oraciones.
+                    </p>
+                    <p style="color: var(--color-green); font-size: 14px; margin-bottom: 20px;" id="sheets-status">
+                        📊 Enviando resultados a Google Sheets...
+                    </p>
+                    <button onclick="location.reload()" style="padding: 12px 32px; background: linear-gradient(90deg, var(--color-green), #00DD55); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer;">
+                        Reiniciar
+                    </button>
+                </div>
+            `;
+
+            document.body.appendChild(resultsDiv);
+        }
+
+        // CONFIGURACIÓN DE GOOGLE SHEETS
+        // IMPORTANTE: Debes crear un Google Apps Script y pegar la URL del Web App aquí
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxD-JzKbQOaXH6yabeyw_lZ9B8baTDOsuiJwiqvhw3JwVZx73bfMhUgKLujYurQ70vPrA/exec';
+
+        async function sendToGoogleSheets(score) {
+            if (!currentUser) return;
+
+            const data = {
+                nombre: currentUser.nombre,
+                apellido: currentUser.apellido,
+                curso: currentUser.curso,
+                puntuacion: score,
+                correctas: correctAnswers,
+                total: oraciones.length,
+                fecha: new Date().toLocaleString('es-EC'),
+                detalles: JSON.parse(localStorage.getItem('sintaxisFlowProgress') || '[]')
+            };
+
+            try {
+                const response = await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                // Actualizar mensaje de estado
+                setTimeout(() => {
+                    const statusElement = document.getElementById('sheets-status');
+                    if (statusElement) {
+                        statusElement.textContent = '✅ Resultados enviados correctamente';
+                        statusElement.style.color = 'var(--color-green)';
+                    }
+                }, 1000);
+
+                // Limpiar localStorage después de enviar
+                localStorage.removeItem('sintaxisFlowProgress');
+            } catch (error) {
+                console.error('Error al enviar a Google Sheets:', error);
+                const statusElement = document.getElementById('sheets-status');
+                if (statusElement) {
+                    statusElement.textContent = '⚠️ No se pudieron enviar los resultados';
+                    statusElement.style.color = 'var(--color-orange)';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
