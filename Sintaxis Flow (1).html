@@ -580,26 +580,169 @@
             color: var(--color-red);
         }
 
+        /* RESPONSIVE DESIGN - Tablets y móviles */
+        @media (max-width: 1024px) {
+            .app-container {
+                min-height: auto;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .replacement-options {
+                flex-direction: column;
+            }
+
+            .replacement-btn {
+                width: 100%;
+            }
+        }
+
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .app-container {
+                border-radius: 15px;
+            }
+
             .main-content {
-                padding: 20px;
+                padding: 20px 16px;
             }
 
             .header {
                 flex-direction: column;
                 gap: 12px;
+                padding: 16px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .level-badge {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .progress-bar {
+                width: 100%;
             }
 
             .exercise-title {
                 font-size: 18px;
             }
 
+            .exercise-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            .exercise-meta {
+                font-size: 12px;
+            }
+
             .sentence-text {
-                font-size: 18px;
+                font-size: 16px;
+            }
+
+            .sentence-container {
+                padding: 20px;
             }
 
             .categories-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .word-chip {
+                font-size: 13px;
+                padding: 8px 14px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px;
+            }
+
+            .login-title {
+                font-size: 24px;
+            }
+
+            .login-subtitle {
+                font-size: 14px;
+            }
+
+            .login-form {
+                max-width: 100%;
+            }
+
+            .pronoun-input {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .replacement-section {
+                padding: 16px;
+            }
+
+            .replacement-title {
+                font-size: 14px;
+            }
+
+            .replacement-btn {
+                font-size: 13px;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 18px;
+            }
+
+            .sentence-text {
+                font-size: 15px;
+            }
+
+            .word-chip {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .category-label {
+                font-size: 10px;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: 12px;
+            }
+
+            .login-title {
+                font-size: 20px;
+            }
+
+            .replacement-options {
+                gap: 8px;
+            }
+
+            .replacement-btn {
+                font-size: 12px;
+                padding: 8px 12px;
             }
         }
     </style>
