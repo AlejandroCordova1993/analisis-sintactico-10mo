@@ -10,9 +10,9 @@
 
 En la primera fila de tu hoja, crea los siguientes encabezados:
 
-| A | B | C | D | E | F | G | H |
-|---|---|---|---|---|---|---|---|
-| Timestamp | Nombre | Apellido | Curso | Puntuación (%) | Correctas | Total | Detalle por Pregunta |
+| A | B | C | D | E | F | G | H | I |
+|---|---|---|---|---|---|---|---|---|
+| Timestamp | Nombre | Apellido | Curso | Puntuación (%) | Calificación /10 | Correctas | Total | Detalle por Pregunta |
 
 ## Paso 3: Crear el Script de Google Apps
 
@@ -60,6 +60,7 @@ function doPost(e) {
     var apellido = data.apellido || '';
     var curso = data.curso || '';
     var puntuacion = data.puntuacion || 0;
+    var calificacion = data.calificacion || 0;
     var correctas = data.correctas || 0;
     var total = data.total || 0;
     
@@ -78,6 +79,7 @@ function doPost(e) {
       apellido,
       curso,
       puntuacion,
+      calificacion,
       correctas,
       total,
       detalle
@@ -88,11 +90,11 @@ function doPost(e) {
     
     // Color de fondo según puntuación
     if (puntuacion >= 90) {
-      sheet.getRange(lastRow, 1, 1, 8).setBackground('#d4edda'); // Verde claro
+      sheet.getRange(lastRow, 1, 1, 9).setBackground('#d4edda'); // Verde claro
     } else if (puntuacion >= 70) {
-      sheet.getRange(lastRow, 1, 1, 8).setBackground('#fff3cd'); // Amarillo claro
+      sheet.getRange(lastRow, 1, 1, 9).setBackground('#fff3cd'); // Amarillo claro
     } else {
-      sheet.getRange(lastRow, 1, 1, 8).setBackground('#f8d7da'); // Rojo claro
+      sheet.getRange(lastRow, 1, 1, 9).setBackground('#f8d7da'); // Rojo claro
     }
     
     return ContentService.createTextOutput(JSON.stringify({
@@ -169,8 +171,9 @@ Cada vez que un estudiante complete la actividad, se guardará una fila con:
 - **Apellido**: Apellido del estudiante
 - **Curso**: 10mo G, H, I o J
 - **Puntuación (%)**: Porcentaje de respuestas correctas
+- **Calificación /10**: Nota sobre 10 puntos
 - **Correctas**: Número de respuestas correctas
-- **Total**: Total de preguntas (16)
+- **Total**: Total de preguntas (20)
 - **Detalle**: P1:✓ P2:✗ P3:✓ ... (resumen de cada pregunta)
 
 ---

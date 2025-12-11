@@ -755,7 +755,7 @@
                 <div class="level-badge" id="levelBadge">NIVEL 1</div>
             </div>
             <div class="progress-info">
-                <div>Pregunta <span id="currentQuestion">0</span> / <span id="totalQuestions">16</span></div>
+                <div>Pregunta <span id="currentQuestion">0</span> / <span id="totalQuestions">20</span></div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
@@ -804,6 +804,14 @@
                     <div class="sentence-text" id="sentenceText"></div>
                 </div>
 
+                <div class="instructions-box" id="instructionsBox" style="background: linear-gradient(135deg, #1e3a5f, #2d5a7b); padding: 15px 20px; border-radius: 12px; margin: 15px 0; border-left: 4px solid var(--color-cyan); box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                    <div style="color: var(--color-cyan); font-weight: 700; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center;">
+                        <span style="font-size: 18px; margin-right: 8px;">💡</span>
+                        <span id="instructionsTitle">Instrucciones</span>
+                    </div>
+                    <div id="instructionsText" style="color: var(--color-slate-200); font-size: 13px; line-height: 1.6;"></div>
+                </div>
+
                 <div class="words-pool" id="wordsPool"></div>
 
                 <div class="categories-grid" id="categoriesGrid"></div>
@@ -827,23 +835,27 @@
             { nivel: 1, numero: 3, tema: "Vial", oracion: "Los conductores responsables respetan el paso cebra.", palabras: ["Los", "conductores", "responsables", "respetan", "el", "paso", "cebra"], sujeto: ["Los", "conductores", "responsables"], predicado: ["respetan", "el", "paso", "cebra"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             { nivel: 1, numero: 4, tema: "Cultura", oracion: "Ese streamer famoso rompió un récord mundial ayer.", palabras: ["Ese", "streamer", "famoso", "rompió", "un", "récord", "mundial", "ayer"], sujeto: ["Ese", "streamer", "famoso"], predicado: ["rompió", "un", "récord", "mundial", "ayer"], ns: [], np: [], cd: [], ci: [], tipo: "analisis" },
             
-            // NIVEL 2: Núcleo del Sujeto y Núcleo del Predicado (4 oraciones)
+            // NIVEL 2: Núcleo del Sujeto y Núcleo del Predicado (5 oraciones)
             { nivel: 2, numero: 5, tema: "Ambiente", oracion: "El plástico contamina nuestros ríos diariamente.", palabras: ["El", "plástico", "contamina", "nuestros", "ríos", "diariamente"], sujeto: [], predicado: [], ns: ["plástico"], np: ["contamina"], cd: [], ci: [], tipo: "analisis" },
             { nivel: 2, numero: 6, tema: "Vial", oracion: "El casco salva vidas en la carretera.", palabras: ["El", "casco", "salva", "vidas", "en", "la", "carretera"], sujeto: [], predicado: [], ns: ["casco"], np: ["salva"], cd: [], ci: [], tipo: "analisis" },
             { nivel: 2, numero: 7, tema: "Tecnología", oracion: "Mis amigos crearon un grupo de WhatsApp nuevo.", palabras: ["Mis", "amigos", "crearon", "un", "grupo", "de", "WhatsApp", "nuevo"], sujeto: [], predicado: [], ns: ["amigos"], np: ["crearon"], cd: [], ci: [], tipo: "analisis" },
             { nivel: 2, numero: 8, tema: "Ética", oracion: "La empatía mejora la convivencia escolar.", palabras: ["La", "empatía", "mejora", "la", "convivencia", "escolar"], sujeto: [], predicado: [], ns: ["empatía"], np: ["mejora"], cd: [], ci: [], tipo: "analisis" },
+            { nivel: 2, numero: 9, tema: "Cultura", oracion: "Los músicos ensayan nuevas canciones diariamente.", palabras: ["Los", "músicos", "ensayan", "nuevas", "canciones", "diariamente"], sujeto: [], predicado: [], ns: ["músicos"], np: ["ensayan"], cd: [], ci: [], tipo: "analisis" },
             
-            // NIVEL 3: Núcleo + CD + CI (4 oraciones)
-            { nivel: 3, numero: 9, tema: "Vial", oracion: "El semáforo da prioridad a los peatones.", palabras: ["El", "semáforo", "da", "prioridad", "a", "los", "peatones"], sujeto: [], predicado: [], ns: ["semáforo"], np: ["da"], cd: ["prioridad"], ci: ["a", "los", "peatones"], tipo: "analisis" },
-            { nivel: 3, numero: 10, tema: "Tecnología", oracion: "El algoritmo sugiere videos a los usuarios.", palabras: ["El", "algoritmo", "sugiere", "videos", "a", "los", "usuarios"], sujeto: [], predicado: [], ns: ["algoritmo"], np: ["sugiere"], cd: ["videos"], ci: ["a", "los", "usuarios"], tipo: "analisis" },
-            { nivel: 3, numero: 11, tema: "Ambiente", oracion: "El gobierno prometió leyes nuevas a los ciudadanos.", palabras: ["El", "gobierno", "prometió", "leyes", "nuevas", "a", "los", "ciudadanos"], sujeto: [], predicado: [], ns: ["gobierno"], np: ["prometió"], cd: ["leyes", "nuevas"], ci: ["a", "los", "ciudadanos"], tipo: "analisis" },
-            { nivel: 3, numero: 12, tema: "Ética", oracion: "Nosotros mostramos respeto a nuestros mayores.", palabras: ["Nosotros", "mostramos", "respeto", "a", "nuestros", "mayores"], sujeto: [], predicado: [], ns: ["Nosotros"], np: ["mostramos"], cd: ["respeto"], ci: ["a", "nuestros", "mayores"], tipo: "analisis" },
+            // NIVEL 3: Núcleo + CD + CI (5 oraciones)
+            { nivel: 3, numero: 10, tema: "Vial", oracion: "El semáforo da prioridad a los peatones.", palabras: ["El", "semáforo", "da", "prioridad", "a", "los", "peatones"], sujeto: [], predicado: [], ns: ["semáforo"], np: ["da"], cd: ["prioridad"], ci: ["a", "los", "peatones"], tipo: "analisis" },
+            { nivel: 3, numero: 11, tema: "Tecnología", oracion: "El algoritmo sugiere videos a los usuarios.", palabras: ["El", "algoritmo", "sugiere", "videos", "a", "los", "usuarios"], sujeto: [], predicado: [], ns: ["algoritmo"], np: ["sugiere"], cd: ["videos"], ci: ["a", "los", "usuarios"], tipo: "analisis" },
+            { nivel: 3, numero: 12, tema: "Ambiente", oracion: "El gobierno prometió leyes nuevas a los ciudadanos.", palabras: ["El", "gobierno", "prometió", "leyes", "nuevas", "a", "los", "ciudadanos"], sujeto: [], predicado: [], ns: ["gobierno"], np: ["prometió"], cd: ["leyes", "nuevas"], ci: ["a", "los", "ciudadanos"], tipo: "analisis" },
+            { nivel: 3, numero: 13, tema: "Ética", oracion: "Nosotros mostramos respeto a nuestros mayores.", palabras: ["Nosotros", "mostramos", "respeto", "a", "nuestros", "mayores"], sujeto: [], predicado: [], ns: ["Nosotros"], np: ["mostramos"], cd: ["respeto"], ci: ["a", "nuestros", "mayores"], tipo: "analisis" },
+            { nivel: 3, numero: 14, tema: "Deporte", oracion: "El entrenador explicó la jugada a los deportistas.", palabras: ["El", "entrenador", "explicó", "la", "jugada", "a", "los", "deportistas"], sujeto: [], predicado: [], ns: ["entrenador"], np: ["explicó"], cd: ["la", "jugada"], ci: ["a", "los", "deportistas"], tipo: "analisis" },
             
-            // NIVEL 4: Sustitución de CD y CI por pronombres (4 oraciones)
-            { nivel: 4, numero: 13, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
-            { nivel: 4, numero: 14, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
-            { nivel: 4, numero: 15, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
-            { nivel: 4, numero: 16, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" }
+            // NIVEL 4: Sustitución de CD y CI por pronombres (5 oraciones)
+            { nivel: 4, numero: 15, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
+            { nivel: 4, numero: 16, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
+            { nivel: 4, numero: 17, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
+            { nivel: 4, numero: 18, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" },
+            { nivel: 4, numero: 19, tema: "Ambiente", oracion: "Los voluntarios entregaron suministros al refugio.", sujeto: "Los voluntarios", verbo: "entregaron", cd: "suministros", ci: "al refugio", cdPronombre: "los", ciPronombre: "le", oracionCD: "Los voluntarios los entregaron al refugio.", oracionCI: "Los voluntarios le entregaron suministros.", oracionAmbos: "Los voluntarios se los entregaron.", tipo: "pronombre" },
+            { nivel: 4, numero: 20, tema: "Ética", oracion: "La escuela otorgó una beca al estudiante.", sujeto: "La escuela", verbo: "otorgó", cd: "una beca", ci: "al estudiante", cdPronombre: "la", ciPronombre: "le", oracionCD: "La escuela la otorgó al estudiante.", oracionCI: "La escuela le otorgó una beca.", oracionAmbos: "La escuela se la otorgó.", tipo: "pronombre" }
         ];
 
         let currentUser = null;
@@ -862,6 +874,26 @@
             loadExercise(0);
         });
 
+        // Función para actualizar las instrucciones según el nivel
+        function updateInstructions(ejercicio) {
+            const instructionsText = document.getElementById('instructionsText');
+            let mensaje = '';
+
+            if (ejercicio.tipo === 'analisis') {
+                if (ejercicio.nivel === 1) {
+                    mensaje = '<strong>Arrastra las palabras</strong> hacia las categorías correctas. Identifica qué parte es el <span style="color: var(--color-blue);">Sujeto</span> (¿Quién realiza la acción?) y qué parte es el <span style="color: var(--color-green);">Predicado</span> (¿Qué se dice del sujeto?).';
+                } else if (ejercicio.nivel === 2) {
+                    mensaje = '<strong>Identifica los núcleos</strong> de la oración. El <span style="color: var(--color-cyan);">Núcleo del Sujeto</span> es la palabra principal del sujeto (generalmente un sustantivo). El <span style="color: var(--color-yellow);">Núcleo del Predicado</span> es el verbo principal.';
+                } else if (ejercicio.nivel === 3) {
+                    mensaje = '<strong>Identifica todos los elementos</strong>: los <strong>núcleos</strong> (NS y NP) y los <strong>complementos</strong>. El <span style="color: var(--color-orange);">CD</span> responde a "¿Qué?" y el <span style="color: var(--color-red);">CI</span> responde a "¿A quién?" o "¿Para quién?".';
+                }
+            } else if (ejercicio.tipo === 'pronombre') {
+                mensaje = '<strong>Selecciona qué complemento</strong> deseas reemplazar (solo CD, solo CI, o ambos) y luego <strong>escribe la oración transformada</strong> usando los pronombres átonos correspondientes (lo, la, los, las, le, les, se).';
+            }
+
+            instructionsText.innerHTML = mensaje;
+        }
+
         function loadExercise(index) {
             currentExerciseIndex = index;
             const ejercicio = oraciones[index];
@@ -875,6 +907,9 @@
             document.getElementById('topicTag').textContent = ejercicio.tema;
             document.getElementById('difficultyTag').textContent = `Nivel ${ejercicio.nivel}`;
             document.getElementById('sentenceText').textContent = ejercicio.oracion;
+
+            // Mostrar instrucciones según el nivel y tipo
+            updateInstructions(ejercicio);
 
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('feedback').textContent = '';
@@ -1378,10 +1413,11 @@
         }
 
         function showFinalResults() {
-            const score = Math.round((correctAnswers / oraciones.length) * 100);
+            const scorePercentage = Math.round((correctAnswers / oraciones.length) * 100);
+            const scoreSobre10 = ((correctAnswers / oraciones.length) * 10).toFixed(2);
             
             // Enviar resultados a Google Sheets
-            sendToGoogleSheets(score);
+            sendToGoogleSheets(scorePercentage, scoreSobre10);
 
             const resultsDiv = document.createElement('div');
             resultsDiv.style.cssText = `
@@ -1400,8 +1436,11 @@
             resultsDiv.innerHTML = `
                 <div style="background: var(--color-slate-800); padding: 40px; border-radius: 20px; text-align: center; border: 3px solid var(--color-cyan); max-width: 500px;">
                     <h2 style="color: var(--color-cyan); font-size: 28px; margin-bottom: 20px;">¡Misión Completada!</h2>
-                    <p style="color: var(--color-white); font-size: 18px; margin-bottom: 30px;">
-                        Puntuación: <span style="color: var(--color-yellow); font-weight: 800; font-size: 32px;">${score}%</span>
+                    <p style="color: var(--color-white); font-size: 18px; margin-bottom: 10px;">
+                        Calificación: <span style="color: var(--color-yellow); font-weight: 800; font-size: 40px;">${scoreSobre10}/10</span>
+                    </p>
+                    <p style="color: var(--color-slate-400); font-size: 14px; margin-bottom: 20px;">
+                        (${scorePercentage}%)
                     </p>
                     <p style="color: var(--color-slate-200); margin-bottom: 30px;">
                         Respondiste correctamente <strong>${correctAnswers} de ${oraciones.length}</strong> oraciones.
@@ -1409,7 +1448,7 @@
                     <p style="color: var(--color-green); font-size: 14px; margin-bottom: 20px;" id="sheets-status">
                         📊 Enviando resultados a Google Sheets...
                     </p>
-                    <button onclick="location.reload()" style="padding: 12px 32px; background: linear-gradient(90deg, var(--color-green), #00DD55); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer;">
+                    <button id="reiniciarBtn" disabled onclick="location.reload()" style="padding: 12px 32px; background: linear-gradient(90deg, #666, #888); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: not-allowed; opacity: 0.5;">
                         Reiniciar
                     </button>
                 </div>
@@ -1422,7 +1461,7 @@
         // IMPORTANTE: Debes crear un Google Apps Script y pegar la URL del Web App aquí
         const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzogh6a08u9ERlt_kTzUfAMUapNdmNiTNsj_rt3s3hfa_c1UcYOJ51q69QLXO3zjnE4nw/exec';
 
-        async function sendToGoogleSheets(score) {
+        async function sendToGoogleSheets(scorePercentage, scoreSobre10) {
             if (!currentUser) {
                 console.warn('⚠️ No hay usuario actual, no se enviarán datos');
                 return;
@@ -1432,7 +1471,8 @@
                 nombre: currentUser.nombre,
                 apellido: currentUser.apellido,
                 curso: currentUser.curso,
-                puntuacion: score,
+                puntuacion: scorePercentage,
+                calificacion: scoreSobre10,
                 correctas: correctAnswers,
                 total: oraciones.length,
                 fecha: new Date().toLocaleString('es-EC'),
@@ -1454,12 +1494,21 @@
 
                 console.log('✅ Solicitud enviada (no-cors mode - no se puede verificar respuesta)');
 
-                // Actualizar mensaje de estado
+                // Actualizar mensaje de estado y habilitar botón de reinicio
                 setTimeout(() => {
                     const statusElement = document.getElementById('sheets-status');
+                    const reiniciarBtn = document.getElementById('reiniciarBtn');
+                    
                     if (statusElement) {
                         statusElement.textContent = '✅ Resultados enviados correctamente';
                         statusElement.style.color = 'var(--color-green)';
+                    }
+                    
+                    if (reiniciarBtn) {
+                        reiniciarBtn.disabled = false;
+                        reiniciarBtn.style.background = 'linear-gradient(90deg, var(--color-green), #00DD55)';
+                        reiniciarBtn.style.cursor = 'pointer';
+                        reiniciarBtn.style.opacity = '1';
                     }
                 }, 1000);
 
@@ -1470,9 +1519,19 @@
                 console.error('❌ Error al enviar a Google Sheets:', error);
                 console.error('Detalles del error:', error.message);
                 const statusElement = document.getElementById('sheets-status');
+                const reiniciarBtn = document.getElementById('reiniciarBtn');
+                
                 if (statusElement) {
                     statusElement.textContent = '⚠️ No se pudieron enviar los resultados. Revisa la consola (F12)';
                     statusElement.style.color = 'var(--color-orange)';
+                }
+                
+                // Habilitar el botón incluso si hay error, para que puedan reiniciar
+                if (reiniciarBtn) {
+                    reiniciarBtn.disabled = false;
+                    reiniciarBtn.style.background = 'linear-gradient(90deg, var(--color-orange), #FF9955)';
+                    reiniciarBtn.style.cursor = 'pointer';
+                    reiniciarBtn.style.opacity = '1';
                 }
             }
         }
