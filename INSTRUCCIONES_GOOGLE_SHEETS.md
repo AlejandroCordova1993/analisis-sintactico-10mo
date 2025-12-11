@@ -170,7 +170,7 @@ Cada vez que un estudiante complete la actividad, se guardará una fila con:
 - **Curso**: 10mo G, H, I o J
 - **Puntuación (%)**: Porcentaje de respuestas correctas
 - **Correctas**: Número de respuestas correctas
-- **Total**: Total de preguntas (24)
+- **Total**: Total de preguntas (16)
 - **Detalle**: P1:✓ P2:✗ P3:✓ ... (resumen de cada pregunta)
 
 ---

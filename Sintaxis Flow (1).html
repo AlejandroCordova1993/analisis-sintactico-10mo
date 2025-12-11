@@ -1420,10 +1420,13 @@
 
         // CONFIGURACIÓN DE GOOGLE SHEETS
         // IMPORTANTE: Debes crear un Google Apps Script y pegar la URL del Web App aquí
-        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxD-JzKbQOaXH6yabeyw_lZ9B8baTDOsuiJwiqvhw3JwVZx73bfMhUgKLujYurQ70vPrA/exec';
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzogh6a08u9ERlt_kTzUfAMUapNdmNiTNsj_rt3s3hfa_c1UcYOJ51q69QLXO3zjnE4nw/exec';
 
         async function sendToGoogleSheets(score) {
-            if (!currentUser) return;
+            if (!currentUser) {
+                console.warn('⚠️ No hay usuario actual, no se enviarán datos');
+                return;
+            }
 
             const data = {
                 nombre: currentUser.nombre,
@@ -1436,6 +1439,9 @@
                 detalles: JSON.parse(localStorage.getItem('sintaxisFlowProgress') || '[]')
             };
 
+            console.log('📤 Enviando datos a Google Sheets:', data);
+            console.log('🔗 URL:', GOOGLE_SHEETS_URL);
+
             try {
                 const response = await fetch(GOOGLE_SHEETS_URL, {
                     method: 'POST',
@@ -1445,6 +1451,8 @@
                     },
                     body: JSON.stringify(data)
                 });
+
+                console.log('✅ Solicitud enviada (no-cors mode - no se puede verificar respuesta)');
 
                 // Actualizar mensaje de estado
                 setTimeout(() => {
@@ -1457,11 +1465,13 @@
 
                 // Limpiar localStorage después de enviar
                 localStorage.removeItem('sintaxisFlowProgress');
+                console.log('🧹 LocalStorage limpiado');
             } catch (error) {
-                console.error('Error al enviar a Google Sheets:', error);
+                console.error('❌ Error al enviar a Google Sheets:', error);
+                console.error('Detalles del error:', error.message);
                 const statusElement = document.getElementById('sheets-status');
                 if (statusElement) {
-                    statusElement.textContent = '⚠️ No se pudieron enviar los resultados';
+                    statusElement.textContent = '⚠️ No se pudieron enviar los resultados. Revisa la consola (F12)';
                     statusElement.style.color = 'var(--color-orange)';
                 }
             }
