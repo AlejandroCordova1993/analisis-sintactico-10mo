@@ -1691,7 +1691,7 @@
                 apellido: currentUser.apellido,
                 curso: currentUser.curso,
                 puntuacion: scorePercentage,
-                calificacion: scoreSobre10,
+                calificacion: parseFloat(scoreSobre10),
                 correctas: correctAnswers,
                 total: oraciones.length,
                 fecha: new Date().toLocaleString('es-EC'),
