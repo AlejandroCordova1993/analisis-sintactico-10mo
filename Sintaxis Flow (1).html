@@ -914,12 +914,12 @@
             { nivel: 3, numero: 14, tema: "Deporte", oracion: "El entrenador explicó la jugada a los deportistas.", palabras: ["El", "entrenador", "explicó", "la", "jugada", "a", "los", "deportistas"], sujeto: [], predicado: [], ns: ["entrenador"], np: ["explicó"], cd: ["la", "jugada"], ci: ["a", "los", "deportistas"], tipo: "analisis" },
             
             // NIVEL 4: Sustitución de CD y CI por pronombres (5 oraciones)
-            { nivel: 4, numero: 15, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", oracionAmbos: "Juan se los envió.", tipo: "pronombre" },
-            { nivel: 4, numero: 16, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", oracionAmbos: "El policía se la puso.", tipo: "pronombre" },
-            { nivel: 4, numero: 17, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", oracionAmbos: "Marvel se lo presentó.", tipo: "pronombre" },
-            { nivel: 4, numero: 18, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", oracionAmbos: "La profesora se la enseñó.", tipo: "pronombre" },
-            { nivel: 4, numero: 19, tema: "Ambiente", oracion: "Los voluntarios entregaron suministros al refugio.", sujeto: "Los voluntarios", verbo: "entregaron", cd: "suministros", ci: "al refugio", cdPronombre: "los", ciPronombre: "le", oracionCD: "Los voluntarios los entregaron al refugio.", oracionCI: "Los voluntarios le entregaron suministros.", oracionAmbos: "Los voluntarios se los entregaron.", tipo: "pronombre" },
-            { nivel: 4, numero: 20, tema: "Ética", oracion: "La escuela otorgó una beca al estudiante.", sujeto: "La escuela", verbo: "otorgó", cd: "una beca", ci: "al estudiante", cdPronombre: "la", ciPronombre: "le", oracionCD: "La escuela la otorgó al estudiante.", oracionCI: "La escuela le otorgó una beca.", oracionAmbos: "La escuela se la otorgó.", tipo: "pronombre" }
+            { nivel: 4, numero: 15, tema: "Tecnología", oracion: "Juan envió los archivos al profesor.", sujeto: "Juan", verbo: "envió", cd: "los archivos", ci: "al profesor", cdPronombre: "los", ciPronombre: "le", oracionCD: "Juan los envió al profesor.", oracionCI: "Juan le envió los archivos.", tipo: "pronombre" },
+            { nivel: 4, numero: 16, tema: "Vial", oracion: "El policía puso una multa al conductor.", sujeto: "El policía", verbo: "puso", cd: "una multa", ci: "al conductor", cdPronombre: "la", ciPronombre: "le", oracionCD: "El policía la puso al conductor.", oracionCI: "El policía le puso una multa.", tipo: "pronombre" },
+            { nivel: 4, numero: 17, tema: "Cultura", oracion: "Marvel presentó el tráiler a la audiencia.", sujeto: "Marvel", verbo: "presentó", cd: "el tráiler", ci: "a la audiencia", cdPronombre: "lo", ciPronombre: "le", oracionCD: "Marvel lo presentó a la audiencia.", oracionCI: "Marvel le presentó el tráiler.", tipo: "pronombre" },
+            { nivel: 4, numero: 18, tema: "Educación", oracion: "La profesora enseñó la lección a los estudiantes.", sujeto: "La profesora", verbo: "enseñó", cd: "la lección", ci: "a los estudiantes", cdPronombre: "la", ciPronombre: "les", oracionCD: "La profesora la enseñó a los estudiantes.", oracionCI: "La profesora les enseñó la lección.", tipo: "pronombre" },
+            { nivel: 4, numero: 19, tema: "Ambiente", oracion: "Los voluntarios entregaron suministros al refugio.", sujeto: "Los voluntarios", verbo: "entregaron", cd: "suministros", ci: "al refugio", cdPronombre: "los", ciPronombre: "le", oracionCD: "Los voluntarios los entregaron al refugio.", oracionCI: "Los voluntarios le entregaron suministros.", tipo: "pronombre" },
+            { nivel: 4, numero: 20, tema: "Ética", oracion: "La escuela otorgó una beca al estudiante.", sujeto: "La escuela", verbo: "otorgó", cd: "una beca", ci: "al estudiante", cdPronombre: "la", ciPronombre: "le", oracionCD: "La escuela la otorgó al estudiante.", oracionCI: "La escuela le otorgó una beca.", tipo: "pronombre" }
         ];
 
         let currentUser = null;
@@ -1096,8 +1096,8 @@
                     1. Lee la oración original<br>
                     2. Identifica el <span style="color: var(--color-orange);">CD (Complemento Directo)</span> - pregunta: <strong>¿Qué + verbo?</strong><br>
                     3. Identifica el <span style="color: var(--color-red);">CI (Complemento Indirecto)</span> - pregunta: <strong>¿A quién + verbo?</strong><br>
-                    4. <strong style="color: var(--color-yellow);">Selecciona qué deseas reemplazar</strong> (obligatorio)<br>
-                    5. Escribe la oración completa con el pronombre correcto (<strong>lo, la, los, las, le, les, se</strong>)
+                    4. <strong style="color: var(--color-yellow);">Escribe AMBAS oraciones transformadas</strong> (obligatorio)<br>
+                    5. Reemplaza usando los pronombres correctos: <strong>lo, la, los, las, le, les</strong>
                 </div>
             `;
             container.appendChild(instructionsDiv);
@@ -1114,128 +1114,54 @@
                 <div style="background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px solid var(--color-red);">
                     <div style="font-size: 11px; color: var(--color-red); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 PARA ENCONTRAR EL CI:</div>
                     <div style="color: var(--color-slate-200); font-size: 13px;">Pregunta: <strong>¿A quién ${ejercicio.verbo}?</strong></div>
-                    <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: le, les (o "se" con CD)</div>
+                    <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: le, les</div>
                 </div>
             `;
             container.appendChild(helpDiv);
 
-            // Título con asterisco de obligatorio
-            const title = document.createElement('div');
-            title.className = 'replacement-title';
-            title.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Selecciona qué quieres reemplazar:';
-            title.style.cssText = 'font-weight: 700; color: var(--color-cyan); margin-bottom: 12px; font-size: 15px;';
-            container.appendChild(title);
+            // Campo para CD
+            const cdDiv = document.createElement('div');
+            cdDiv.style.cssText = 'margin-bottom: 16px;';
+            
+            const cdLabel = document.createElement('div');
+            cdLabel.style.cssText = 'font-weight: 700; color: var(--color-orange); margin-bottom: 8px; font-size: 14px;';
+            cdLabel.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Reemplaza solo el CD por pronombre:';
+            cdDiv.appendChild(cdLabel);
 
-            // Botones de opción
-            const optionsDiv = document.createElement('div');
-            optionsDiv.className = 'replacement-options';
+            const cdHint = document.createElement('div');
+            cdHint.style.cssText = 'background-color: var(--color-slate-800); padding: 10px; border-radius: 6px; border: 1px dashed var(--color-orange); margin-bottom: 8px; font-size: 12px; color: var(--color-slate-300);';
+            cdHint.innerHTML = `💡 Reemplaza "${ejercicio.cd}" por el pronombre (lo/la/los/las)`;
+            cdDiv.appendChild(cdHint);
 
-            const btnCD = document.createElement('button');
-            btnCD.className = 'replacement-btn active';
-            btnCD.innerHTML = `Solo CD → Pronombre`;
-            btnCD.id = 'btn-cd';
-            btnCD.onclick = () => selectReplacement('cd', ejercicio);
+            const cdInput = document.createElement('input');
+            cdInput.type = 'text';
+            cdInput.className = 'pronoun-input';
+            cdInput.id = 'pronombre-cd-input';
+            cdInput.placeholder = `Ej: ${ejercicio.sujeto} ${ejercicio.cdPronombre} ${ejercicio.verbo} ${ejercicio.ci}`;
+            cdDiv.appendChild(cdInput);
+            container.appendChild(cdDiv);
 
-            const btnCI = document.createElement('button');
-            btnCI.className = 'replacement-btn';
-            btnCI.innerHTML = `Solo CI → Pronombre`;
-            btnCI.id = 'btn-ci';
-            btnCI.onclick = () => selectReplacement('ci', ejercicio);
+            // Campo para CI
+            const ciDiv = document.createElement('div');
+            ciDiv.style.cssText = 'margin-bottom: 16px;';
+            
+            const ciLabel = document.createElement('div');
+            ciLabel.style.cssText = 'font-weight: 700; color: var(--color-red); margin-bottom: 8px; font-size: 14px;';
+            ciLabel.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Reemplaza solo el CI por pronombre:';
+            ciDiv.appendChild(ciLabel);
 
-            const btnAmbos = document.createElement('button');
-            btnAmbos.className = 'replacement-btn';
-            btnAmbos.innerHTML = `CD + CI → Pronombres (se + pronombre)`;
-            btnAmbos.id = 'btn-ambos';
-            btnAmbos.onclick = () => selectReplacement('ambos', ejercicio);
+            const ciHint = document.createElement('div');
+            ciHint.style.cssText = 'background-color: var(--color-slate-800); padding: 10px; border-radius: 6px; border: 1px dashed var(--color-red); margin-bottom: 8px; font-size: 12px; color: var(--color-slate-300);';
+            ciHint.innerHTML = `💡 Reemplaza "${ejercicio.ci}" por el pronombre (le/les)`;
+            ciDiv.appendChild(ciHint);
 
-            optionsDiv.appendChild(btnCD);
-            optionsDiv.appendChild(btnCI);
-            optionsDiv.appendChild(btnAmbos);
-            container.appendChild(optionsDiv);
-
-            // Pista de estructura (NO la respuesta completa)
-            const hintDiv = document.createElement('div');
-            hintDiv.id = 'hint-div';
-            hintDiv.style.cssText = 'background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px dashed var(--color-orange); margin-bottom: 16px;';
-            hintDiv.innerHTML = `
-                <div style="font-size: 12px; color: var(--color-slate-200); margin-bottom: 4px;">💡 Estructura esperada:</div>
-                <div style="color: var(--color-orange); font-weight: 600; font-style: italic;">${ejercicio.sujeto} + [pronombre] + ${ejercicio.verbo} + ...</div>
-                <div style="font-size: 11px; color: var(--color-slate-300); margin-top: 6px;">Recuerda: El pronombre va ANTES del verbo</div>
-            `;
-            container.appendChild(hintDiv);
-
-            // Entrada de texto para la oración transformada
-            const inputDiv = document.createElement('div');
-            inputDiv.style.cssText = 'display: flex; flex-direction: column; gap: 8px;';
-
-            const label = document.createElement('div');
-            label.className = 'pronoun-label';
-            label.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Escribe la oración completa transformada:';
-            label.style.fontWeight = '700';
-            inputDiv.appendChild(label);
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'pronoun-input';
-            input.id = 'pronombre-input';
-            input.placeholder = 'Ej: Juan los envió al profesor.';
-            input.style.minWidth = '100%';
-            input.style.textAlign = 'left';
-            inputDiv.appendChild(input);
-
-            container.appendChild(inputDiv);
-
-            // Guardar estado de selección
-            container.dataset.selected = 'cd';
-        }
-
-        function selectReplacement(type, ejercicio) {
-            const btnCD = document.getElementById('btn-cd');
-            const btnCI = document.getElementById('btn-ci');
-            const btnAmbos = document.getElementById('btn-ambos');
-            const hintDiv = document.getElementById('hint-div');
-            const container = document.getElementById('wordsPool');
-
-            // Actualizar botones
-            btnCD.classList.remove('active');
-            btnCI.classList.remove('active');
-            btnAmbos.classList.remove('active');
-
-            let estructura = '';
-            let pista = '';
-            let borderColor = '';
-
-            if (type === 'cd') {
-                btnCD.classList.add('active');
-                estructura = `${ejercicio.sujeto} + [pronombre CD] + ${ejercicio.verbo} + ${ejercicio.ci}`;
-                pista = `Reemplaza "${ejercicio.cd}" por el pronombre correcto (lo/la/los/las)`;
-                borderColor = 'var(--color-orange)';
-            } else if (type === 'ci') {
-                btnCI.classList.add('active');
-                estructura = `${ejercicio.sujeto} + [pronombre CI] + ${ejercicio.verbo} + ${ejercicio.cd}`;
-                pista = `Reemplaza "${ejercicio.ci}" por el pronombre correcto (le/les)`;
-                borderColor = 'var(--color-red)';
-            } else if (type === 'ambos') {
-                btnAmbos.classList.add('active');
-                estructura = `${ejercicio.sujeto} + se + [pronombre CD] + ${ejercicio.verbo}`;
-                pista = `Reemplaza ambos complementos. IMPORTANTE: "le" se convierte en "se" cuando va con otro pronombre`;
-                borderColor = 'var(--color-cyan)';
-            }
-
-            // Actualizar pista (sin mostrar la respuesta)
-            hintDiv.style.borderColor = borderColor;
-            hintDiv.innerHTML = `
-                <div style="font-size: 12px; color: var(--color-slate-200); margin-bottom: 4px;">💡 Pista de estructura:</div>
-                <div style="color: ${borderColor}; font-weight: 600; font-style: italic; margin-bottom: 8px;">${estructura}</div>
-                <div style="font-size: 11px; color: var(--color-slate-300);">${pista}</div>
-            `;
-
-            // Guardar selección
-            container.dataset.selected = type;
-
-            // Limpiar input
-            document.getElementById('pronombre-input').value = '';
-            document.getElementById('pronombre-input').focus();
+            const ciInput = document.createElement('input');
+            ciInput.type = 'text';
+            ciInput.className = 'pronoun-input';
+            ciInput.id = 'pronombre-ci-input';
+            ciInput.placeholder = `Ej: ${ejercicio.sujeto} ${ejercicio.ciPronombre} ${ejercicio.verbo} ${ejercicio.cd}`;
+            ciDiv.appendChild(ciInput);
+            container.appendChild(ciDiv);
         }
 
         function generateReplacementText(type, ejercicio) {
@@ -1537,38 +1463,31 @@
                     }
                 }
             } else if (ejercicio.tipo === 'pronombre') {
-                // VALIDACIÓN: Verificar que el estudiante haya seleccionado una opción y escrito algo
-                const container = document.getElementById('wordsPool');
-                const selected = container.dataset.selected;
-                const userInput = document.getElementById('pronombre-input').value.trim();
+                // VALIDACIÓN: Verificar que el estudiante haya completado ambos campos
+                const userInputCD = document.getElementById('pronombre-cd-input').value.trim();
+                const userInputCI = document.getElementById('pronombre-ci-input').value.trim();
 
-                if (!selected || selected === '') {
+                if (!userInputCD || userInputCD === '') {
                     feedback.className = 'feedback error';
-                    feedback.textContent = '⚠ Debes seleccionar qué tipo de complemento deseas reemplazar.';
+                    feedback.textContent = '⚠ Debes escribir la oración con el CD reemplazado.';
                     return;
                 }
 
-                if (!userInput || userInput === '') {
+                if (!userInputCI || userInputCI === '') {
                     feedback.className = 'feedback error';
-                    feedback.textContent = '⚠ Debes escribir la oración transformada antes de verificar.';
+                    feedback.textContent = '⚠ Debes escribir la oración con el CI reemplazado.';
                     return;
                 }
                 
-                // Verificar pronombre y oración transformada
+                // Verificar ambas oraciones transformadas
                 // Normalizar respuestas (quitar puntos, espacios extras, y convertir a minúsculas)
                 const normalize = (str) => str.toLowerCase().replace(/[\.¡!¿?]/g, '').replace(/\s+/g, ' ').trim();
 
-                let oracionCorrecta = '';
-                if (selected === 'cd') {
-                    oracionCorrecta = ejercicio.oracionCD;
-                } else if (selected === 'ci') {
-                    oracionCorrecta = ejercicio.oracionCI;
-                } else if (selected === 'ambos') {
-                    oracionCorrecta = ejercicio.oracionAmbos;
-                }
+                const cdCorrecto = normalize(userInputCD) === normalize(ejercicio.oracionCD);
+                const ciCorrecto = normalize(userInputCI) === normalize(ejercicio.oracionCI);
 
-                // Comparar respuestas normalizadas
-                if (normalize(userInput) === normalize(oracionCorrecta)) {
+                // Ambas deben ser correctas
+                if (cdCorrecto && ciCorrecto) {
                     esCorrect = true;
                 } else {
                     esCorrect = false;
@@ -1587,19 +1506,20 @@
                 
                 // Dar retroalimentación específica para pronombres
                 if (ejercicio.tipo === 'pronombre') {
-                    const container = document.getElementById('wordsPool');
-                    const selected = container.dataset.selected;
-                    let oracionCorrecta = '';
+                    const userInputCD = document.getElementById('pronombre-cd-input').value.trim();
+                    const userInputCI = document.getElementById('pronombre-ci-input').value.trim();
+                    const normalize = (str) => str.toLowerCase().replace(/[\.¡!¿?]/g, '').replace(/\s+/g, ' ').trim();
                     
-                    if (selected === 'cd') {
-                        oracionCorrecta = ejercicio.oracionCD;
-                    } else if (selected === 'ci') {
-                        oracionCorrecta = ejercicio.oracionCI;
-                    } else if (selected === 'ambos') {
-                        oracionCorrecta = ejercicio.oracionAmbos;
+                    const cdCorrecto = normalize(userInputCD) === normalize(ejercicio.oracionCD);
+                    const ciCorrecto = normalize(userInputCI) === normalize(ejercicio.oracionCI);
+                    
+                    if (!cdCorrecto && !ciCorrecto) {
+                        mensajeError = `✗ Ambas incorrectas. CD correcta: "${ejercicio.oracionCD}" | CI correcta: "${ejercicio.oracionCI}"`;
+                    } else if (!cdCorrecto) {
+                        mensajeError = `✗ CD incorrecta. La correcta es: "${ejercicio.oracionCD}"`;
+                    } else if (!ciCorrecto) {
+                        mensajeError = `✗ CI incorrecta. La correcta es: "${ejercicio.oracionCI}"`;
                     }
-                    
-                    mensajeError = `✗ Incorrecto. La oración correcta es: "${oracionCorrecta}"`;
                 }
                 
                 feedback.textContent = mensajeError;
