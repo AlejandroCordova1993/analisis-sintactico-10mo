@@ -963,6 +963,15 @@
         function loadExercise(index) {
             currentExerciseIndex = index;
             const ejercicio = oraciones[index];
+            
+            // Limpiar cualquier clon fantasma que haya quedado
+            if (touchClone) {
+                touchClone.remove();
+                touchClone = null;
+            }
+            document.querySelectorAll('.word-chip, .dropped-word').forEach(el => {
+                el.style.opacity = '1';
+            });
 
             document.getElementById('levelBadge').textContent = `NIVEL ${ejercicio.nivel}`;
             document.getElementById('currentQuestion').textContent = index + 1;
@@ -1236,6 +1245,7 @@
         function enableTouchDrag(element) {
             let touchStartX, touchStartY;
             let isDragging = false;
+            let longPressTimer = null;
             
             element.addEventListener('touchstart', function(e) {
                 touchStartTime = Date.now();
@@ -1243,26 +1253,27 @@
                 touchStartX = touch.clientX;
                 touchStartY = touch.clientY;
                 
-                // Crear clon visual inmediatamente
-                setTimeout(() => {
-                    if (!isDragging && e.touches.length > 0) {
-                        isDragging = true;
-                        draggedElement = element;
-                        
-                        // Crear clon visual
-                        touchClone = element.cloneNode(true);
-                        touchClone.style.position = 'fixed';
-                        touchClone.style.zIndex = '10000';
-                        touchClone.style.pointerEvents = 'none';
-                        touchClone.style.opacity = '0.8';
-                        touchClone.style.transform = 'scale(1.1)';
-                        touchClone.style.left = touch.clientX - (element.offsetWidth / 2) + 'px';
-                        touchClone.style.top = touch.clientY - (element.offsetHeight / 2) + 'px';
-                        document.body.appendChild(touchClone);
-                        
-                        element.style.opacity = '0.3';
-                    }
-                }, 50); // Delay mínimo de 50ms
+                // Iniciar arrastre inmediatamente sin delay
+                isDragging = true;
+                draggedElement = element;
+                
+                // Crear clon visual
+                if (touchClone) {
+                    touchClone.remove();
+                }
+                
+                touchClone = element.cloneNode(true);
+                touchClone.style.position = 'fixed';
+                touchClone.style.zIndex = '10000';
+                touchClone.style.pointerEvents = 'none';
+                touchClone.style.opacity = '0.9';
+                touchClone.style.transform = 'scale(1.15) rotate(3deg)';
+                touchClone.style.transition = 'none';
+                touchClone.style.left = touch.clientX - (element.offsetWidth / 2) + 'px';
+                touchClone.style.top = touch.clientY - (element.offsetHeight / 2) + 'px';
+                document.body.appendChild(touchClone);
+                
+                element.style.opacity = '0.3';
             }, { passive: true });
             
             element.addEventListener('touchmove', function(e) {
@@ -1295,19 +1306,20 @@
                         const dropZone = elementBelow.closest('.drop-zone');
                         if (dropZone) {
                             // Simular drop
-                            const categoryId = dropZone.parentElement.dataset.category;
                             handleTouchDrop(dropZone, element);
                         }
                     }
                     
-                    // Limpiar
-                    if (touchClone) {
+                    // Limpiar TODO
+                    if (touchClone && touchClone.parentElement) {
                         touchClone.remove();
-                        touchClone = null;
                     }
+                    touchClone = null;
                     element.style.opacity = '1';
                     isDragging = false;
+                    draggedElement = null;
                     
+                    // Limpiar resaltados
                     document.querySelectorAll('.drop-zone').forEach(zone => {
                         zone.classList.remove('drag-over');
                     });
