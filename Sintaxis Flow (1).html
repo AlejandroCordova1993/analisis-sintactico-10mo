@@ -673,24 +673,63 @@
 
             .categories-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .category {
+                padding: 12px;
+                min-height: 80px;
+            }
+            
+            .category-label {
+                font-size: 11px;
+                margin-bottom: 8px;
             }
             
             .drop-zone {
-                min-height: 100px;
-                max-height: 180px;
-                padding: 20px 15px;
+                min-height: 60px;
+                max-height: 120px;
+                padding: 10px;
             }
 
             .word-chip {
-                font-size: 14px;
-                padding: 10px 16px;
-                margin: 6px;
+                font-size: 13px;
+                padding: 8px 12px;
+                margin: 4px;
             }
             
             .dropped-word {
-                font-size: 14px;
-                padding: 10px 16px;
-                margin: 6px;
+                font-size: 13px;
+                padding: 8px 12px;
+                margin: 4px;
+            }
+            
+            .words-pool {
+                position: sticky;
+                top: 10px;
+                z-index: 10;
+                padding: 12px;
+                margin: 10px 0;
+                max-height: 150px;
+                gap: 8px;
+            }
+            
+            .sentence-container {
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+            
+            .sentence-text {
+                font-size: 15px;
+            }
+            
+            .instructions-box {
+                padding: 12px 15px !important;
+                margin: 10px 0 !important;
+            }
+            
+            #instructionsText {
+                font-size: 12px !important;
             }
 
             .controls {
@@ -956,6 +995,10 @@
                     chip.setAttribute('data-index', idx);
                     chip.addEventListener('dragstart', handleDragStart);
                     chip.addEventListener('dragend', handleDragEnd);
+                    
+                    // Eventos táctiles para móvil más responsivos
+                    enableTouchDrag(chip);
+                    
                     wordsPool.appendChild(chip);
                 });
                 document.getElementById('categoriesGrid').style.display = 'grid';
@@ -1186,6 +1229,113 @@
         }
 
         let draggedElement = null;
+        let touchClone = null;
+        let touchStartTime = 0;
+
+        // Sistema de arrastre táctil mejorado para móvil
+        function enableTouchDrag(element) {
+            let touchStartX, touchStartY;
+            let isDragging = false;
+            
+            element.addEventListener('touchstart', function(e) {
+                touchStartTime = Date.now();
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                
+                // Crear clon visual inmediatamente
+                setTimeout(() => {
+                    if (!isDragging && e.touches.length > 0) {
+                        isDragging = true;
+                        draggedElement = element;
+                        
+                        // Crear clon visual
+                        touchClone = element.cloneNode(true);
+                        touchClone.style.position = 'fixed';
+                        touchClone.style.zIndex = '10000';
+                        touchClone.style.pointerEvents = 'none';
+                        touchClone.style.opacity = '0.8';
+                        touchClone.style.transform = 'scale(1.1)';
+                        touchClone.style.left = touch.clientX - (element.offsetWidth / 2) + 'px';
+                        touchClone.style.top = touch.clientY - (element.offsetHeight / 2) + 'px';
+                        document.body.appendChild(touchClone);
+                        
+                        element.style.opacity = '0.3';
+                    }
+                }, 50); // Delay mínimo de 50ms
+            }, { passive: true });
+            
+            element.addEventListener('touchmove', function(e) {
+                if (isDragging && touchClone) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    touchClone.style.left = touch.clientX - (element.offsetWidth / 2) + 'px';
+                    touchClone.style.top = touch.clientY - (element.offsetHeight / 2) + 'px';
+                    
+                    // Resaltar drop zone bajo el dedo
+                    const dropZones = document.querySelectorAll('.drop-zone');
+                    dropZones.forEach(zone => zone.classList.remove('drag-over'));
+                    
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    if (elementBelow) {
+                        const dropZone = elementBelow.closest('.drop-zone');
+                        if (dropZone) {
+                            dropZone.classList.add('drag-over');
+                        }
+                    }
+                }
+            }, { passive: false });
+            
+            element.addEventListener('touchend', function(e) {
+                if (isDragging) {
+                    const touch = e.changedTouches[0];
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    
+                    if (elementBelow) {
+                        const dropZone = elementBelow.closest('.drop-zone');
+                        if (dropZone) {
+                            // Simular drop
+                            const categoryId = dropZone.parentElement.dataset.category;
+                            handleTouchDrop(dropZone, element);
+                        }
+                    }
+                    
+                    // Limpiar
+                    if (touchClone) {
+                        touchClone.remove();
+                        touchClone = null;
+                    }
+                    element.style.opacity = '1';
+                    isDragging = false;
+                    
+                    document.querySelectorAll('.drop-zone').forEach(zone => {
+                        zone.classList.remove('drag-over');
+                    });
+                }
+            }, { passive: true });
+        }
+        
+        function handleTouchDrop(dropZone, sourceElement) {
+            if (sourceElement) {
+                const palabra = sourceElement.textContent;
+                
+                // Si viene del pool original (word-chip)
+                if (sourceElement.classList.contains('word-chip')) {
+                    const droppedWord = createDroppedWord(palabra, sourceElement);
+                    enableTouchDrag(droppedWord); // Permitir arrastrar la palabra ya colocada
+                    dropZone.appendChild(droppedWord);
+                    sourceElement.classList.add('hidden');
+                }
+                // Si viene de otro cajón (dropped-word)
+                else if (sourceElement.classList.contains('dropped-word')) {
+                    const originalChip = sourceElement.dataset.originalChip;
+                    const droppedWord = createDroppedWord(palabra, document.querySelector(`[data-index="${originalChip}"]`));
+                    enableTouchDrag(droppedWord); // Permitir arrastrar la palabra ya colocada
+                    dropZone.appendChild(droppedWord);
+                    sourceElement.remove();
+                }
+            }
+        }
 
         function handleDragStart(e) {
             draggedElement = e.target;
