@@ -940,10 +940,12 @@
 
         // Función para actualizar las instrucciones según el nivel
         function updateInstructions(ejercicio) {
+            const instructionsBox = document.getElementById('instructionsBox');
             const instructionsText = document.getElementById('instructionsText');
             let mensaje = '';
 
             if (ejercicio.tipo === 'analisis') {
+                instructionsBox.style.display = 'block';
                 const tipMovil = '<br><small style="color: var(--color-slate-400); font-size: 11px;">💡 Tip: Puedes mover palabras entre cajones. Doble-clic para devolverlas.</small>';
                 
                 if (ejercicio.nivel === 1) {
@@ -954,7 +956,9 @@
                     mensaje = '<strong>Identifica todos los elementos</strong>: los <strong>núcleos</strong> (NS y NP) y los <strong>complementos</strong>. El <span style="color: var(--color-orange);">CD</span> responde a "¿Qué?" y el <span style="color: var(--color-red);">CI</span> responde a "¿A quién?" o "¿Para quién?".' + tipMovil;
                 }
             } else if (ejercicio.tipo === 'pronombre') {
-                mensaje = '<strong>Selecciona qué complemento</strong> deseas reemplazar (solo CD, solo CI, o ambos) y luego <strong>escribe la oración transformada</strong> usando los pronombres átonos correspondientes (lo, la, los, las, le, les, se).';
+                // Ocultar el cuadro de instrucciones para pronombres (se mostrarán dentro del ejercicio)
+                instructionsBox.style.display = 'none';
+                mensaje = '';
             }
 
             instructionsText.innerHTML = mensaje;
@@ -1083,16 +1087,16 @@
             container.innerHTML = '';
             container.className = 'replacement-section';
 
-            // Instrucciones
+            // Instrucciones detalladas
             const instructionsDiv = document.createElement('div');
-            instructionsDiv.style.cssText = 'background-color: var(--color-slate-800); padding: 16px; border-radius: 10px; border-left: 4px solid var(--color-cyan); margin-bottom: 20px;';
+            instructionsDiv.style.cssText = 'background: linear-gradient(135deg, #1e3a5f, #2d5a7b); padding: 18px; border-radius: 12px; border-left: 4px solid var(--color-cyan); margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);';
             instructionsDiv.innerHTML = `
-                <div style="font-weight: 700; color: var(--color-cyan); margin-bottom: 8px;">📝 INSTRUCCIONES:</div>
-                <div style="color: var(--color-slate-200); font-size: 14px; line-height: 1.6;">
+                <div style="font-weight: 700; color: var(--color-cyan); margin-bottom: 10px; font-size: 15px;">📝 INSTRUCCIONES:</div>
+                <div style="color: var(--color-slate-200); font-size: 13px; line-height: 1.7;">
                     1. Lee la oración original<br>
                     2. Identifica el <span style="color: var(--color-orange);">CD (Complemento Directo)</span> - pregunta: <strong>¿Qué + verbo?</strong><br>
                     3. Identifica el <span style="color: var(--color-red);">CI (Complemento Indirecto)</span> - pregunta: <strong>¿A quién + verbo?</strong><br>
-                    4. Selecciona qué deseas reemplazar<br>
+                    4. <strong style="color: var(--color-yellow);">Selecciona qué deseas reemplazar</strong> (obligatorio)<br>
                     5. Escribe la oración completa con el pronombre correcto (<strong>lo, la, los, las, le, les, se</strong>)
                 </div>
             `;
@@ -1103,22 +1107,23 @@
             helpDiv.style.cssText = 'display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;';
             helpDiv.innerHTML = `
                 <div style="background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px solid var(--color-orange);">
-                    <div style="font-size: 11px; color: var(--color-orange); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 Para encontrar el CD:</div>
+                    <div style="font-size: 11px; color: var(--color-orange); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 PARA ENCONTRAR EL CD:</div>
                     <div style="color: var(--color-slate-200); font-size: 13px;">Pregunta: <strong>¿Qué ${ejercicio.verbo}?</strong></div>
                     <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: lo, la, los, las</div>
                 </div>
                 <div style="background-color: var(--color-slate-800); padding: 12px; border-radius: 8px; border: 2px solid var(--color-red);">
-                    <div style="font-size: 11px; color: var(--color-red); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 Para encontrar el CI:</div>
+                    <div style="font-size: 11px; color: var(--color-red); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">🔍 PARA ENCONTRAR EL CI:</div>
                     <div style="color: var(--color-slate-200); font-size: 13px;">Pregunta: <strong>¿A quién ${ejercicio.verbo}?</strong></div>
                     <div style="color: var(--color-slate-300); font-size: 12px; margin-top: 6px; font-style: italic;">Pronombres: le, les (o "se" con CD)</div>
                 </div>
             `;
             container.appendChild(helpDiv);
 
-            // Título
+            // Título con asterisco de obligatorio
             const title = document.createElement('div');
             title.className = 'replacement-title';
-            title.textContent = 'Selecciona qué quieres reemplazar:';
+            title.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Selecciona qué quieres reemplazar:';
+            title.style.cssText = 'font-weight: 700; color: var(--color-cyan); margin-bottom: 12px; font-size: 15px;';
             container.appendChild(title);
 
             // Botones de opción
@@ -1127,19 +1132,19 @@
 
             const btnCD = document.createElement('button');
             btnCD.className = 'replacement-btn active';
-            btnCD.textContent = `Solo CD → Pronombre`;
+            btnCD.innerHTML = `Solo CD → Pronombre`;
             btnCD.id = 'btn-cd';
             btnCD.onclick = () => selectReplacement('cd', ejercicio);
 
             const btnCI = document.createElement('button');
             btnCI.className = 'replacement-btn';
-            btnCI.textContent = `Solo CI → Pronombre`;
+            btnCI.innerHTML = `Solo CI → Pronombre`;
             btnCI.id = 'btn-ci';
             btnCI.onclick = () => selectReplacement('ci', ejercicio);
 
             const btnAmbos = document.createElement('button');
             btnAmbos.className = 'replacement-btn';
-            btnAmbos.textContent = `CD + CI → Pronombres (se + pronombre)`;
+            btnAmbos.innerHTML = `CD + CI → Pronombres (se + pronombre)`;
             btnAmbos.id = 'btn-ambos';
             btnAmbos.onclick = () => selectReplacement('ambos', ejercicio);
 
@@ -1165,7 +1170,8 @@
 
             const label = document.createElement('div');
             label.className = 'pronoun-label';
-            label.textContent = 'Escribe la oración completa transformada:';
+            label.innerHTML = '<span style="color: var(--color-red); margin-right: 5px;">*</span>Escribe la oración completa transformada:';
+            label.style.fontWeight = '700';
             inputDiv.appendChild(label);
 
             const input = document.createElement('input');
